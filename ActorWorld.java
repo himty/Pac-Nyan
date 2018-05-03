@@ -33,9 +33,61 @@ import java.util.ArrayList;
 
 public class ActorWorld extends World
 {
-    private static final int DEFAULT_ROWS = 30;
-    private static final int DEFAULT_COLS = 30;
-    private static final int CELL_SIZE = 20;
+    private static final int DEFAULT_ROWS = 15;
+    private static final int DEFAULT_COLS = 25;
+    private static final int CELL_SIZE = 30;
+    
+    private final char WALL = 'x';
+    private final char VOID = '_';
+    private final char EMPTY = ' ';
+
+    private final char[][] WALL_MAP = 
+    {
+        {'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'},
+        {'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x'}, 
+        {'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x'}, 
+        {'x', ' ', 'x', '_', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', '_', 'x', ' ', 'x'}, 
+        {'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x'}, 
+        {'x', ' ', ' ', ' ', ' ', ' ', 'x', '_', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', '_', 'x', ' ', ' ', ' ', ' ', ' ', 'x'}, 
+        {'x', ' ', 'x', 'x', 'x', ' ', 'x', '_', 'x', ' ', 'x', 'x', ' ', 'x', 'x', ' ', 'x', '_', 'x', ' ', 'x', 'x', 'x', ' ', 'x'}, 
+        {'x', ' ', 'x', '_', 'x', ' ', 'x', '_', 'x', ' ', 'x', ' ', ' ', ' ', 'x', ' ', 'x', '_', 'x', ' ', 'x', '_', 'x', ' ', 'x'}, 
+        {'x', ' ', 'x', 'x', 'x', ' ', 'x', '_', 'x', ' ', 'x', ' ', ' ', ' ', 'x', ' ', 'x', '_', 'x', ' ', 'x', 'x', 'x', ' ', 'x'}, 
+        {'x', ' ', ' ', ' ', ' ', ' ', 'x', '_', 'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x', '_', 'x', ' ', ' ', ' ', ' ', ' ', 'x'}, 
+        {'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x'}, 
+        {'x', ' ', 'x', '_', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', '_', 'x', ' ', 'x'}, 
+        {'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x'}, 
+        {'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x'}, 
+        {'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'}
+    };
+    
+    private final char[][] WALL_MAP_OLD = 
+        {
+            {'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'},
+            {'x', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', 'x'},
+            {'x', ' ', 'x', 'x', 'x', 'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', 'x', 'x', 'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', 'x', 'x', 'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', ' ', 'x'},
+            {'x', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', 'x', ' ', 'x', ' ', 'x', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', 'x'},
+            {'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', ' ', ' ', ' ', 'x', 'x', 'x', ' ', 'x', ' ', 'x', ' ', 'x', ' ', 'x', 'x', 'x', ' ', ' ', ' ', 'x', 'x', 'x', 'x', ' ', 'x', ' ', 'x'},
+            {'x', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', 'x'},
+            {'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', ' ', 'x', 'x', 'x', 'x', ' ', 'x', 'x', 'x', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', 'x'},
+            {'x', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', 'x', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x'},
+            {'x', 'x', 'x', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', 'x', 'x'},
+            {'x', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x'},
+            {'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', 'x'},
+            {'x', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', 'x'},
+            {'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x'},
+            {'x', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', 'x'},
+            {'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', 'x'},
+            {'x', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x'},
+            {'x', 'x', 'x', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', 'x', 'x'},
+            {'x', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', 'x', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x'},
+            {'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', ' ', 'x', 'x', 'x', 'x', ' ', 'x', 'x', 'x', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', 'x'},
+            {'x', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', 'x'},
+            {'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', ' ', ' ', ' ', 'x', 'x', 'x', ' ', 'x', ' ', 'x', ' ', 'x', ' ', 'x', 'x', 'x', ' ', ' ', ' ', 'x', 'x', 'x', 'x', ' ', 'x', ' ', 'x'},
+            {'x', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', 'x', ' ', 'x', ' ', 'x', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', 'x'},
+            {'x', ' ', 'x', 'x', 'x', 'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', 'x', 'x', 'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', 'x', 'x', 'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', ' ', 'x'},
+            {'x', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', 'x'},
+            {'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'}
+        };
 
     private Grid<GridActor> grid;
     
@@ -44,7 +96,7 @@ public class ActorWorld extends World
      */
     public ActorWorld()
     {
-        super(DEFAULT_ROWS, DEFAULT_COLS, CELL_SIZE);
+        super(DEFAULT_COLS, DEFAULT_ROWS, CELL_SIZE);
         paintGrid();
         grid = new BoundedGrid<GridActor>(this);
         initGameMap();
@@ -151,40 +203,25 @@ public class ActorWorld extends World
      */
     public void initGameMap() 
     {
-        placeRockBoundary();
-        
-        placeRockT(new Location(4, 4));
+        createWalls();
     }
     
     /**
-     * Initializes Rocks that surround the outside perimeter of the maze
+     * Creates the walls in the map based off char[][] WALL_MAP
      */
-    private void placeRockBoundary() {
-        for (int x = 0; x < grid.getNumCols(); x++) {
-            add(new Rock(), new Location(0, x));
-            add(new Rock(), new Location(grid.getNumRows() - 1, x));
+    private void createWalls() {
+        for (int row = 0; row < WALL_MAP.length; row++) {
+            for(int col = 0; col < WALL_MAP[0].length; col++) {
+                if (WALL_MAP[row][col] == WALL) {
+                    add(new Wall(), new Location(row, col));
+                }
+                else if (WALL_MAP[row][col] == VOID) {
+                    add(new Void(), new Location(row, col));
+                }
+                else if (WALL_MAP[row][col] == EMPTY) {
+                    //do nothing
+                }
+            }
         }
-        
-        for(int y = 1; y < grid.getNumRows() - 1; y++) {
-            add(new Rock(), new Location(y, 0));
-            add(new Rock(), new Location(y, grid.getNumCols() - 1));
-        }
-    }
-    
-    /**
-     * Initializes Rocks that form a right-side-up T-shape with the bottom
-     * of the T at Location loc
-     * @parameter loc   the location of the bottom of the T
-     */
-    private void placeRockT(Location loc) {
-        int[] rowMap = {-2, -2, -2, -1, 0};
-        int[] colMap = {-1,  0,  1,  0, 0};
-        
-        for(int i = 0; i < rowMap.length; i++) {
-            add(new Rock(), new Location(loc.getRow() + rowMap[i],
-                                    loc.getCol() + colMap[i]));
-        }
-    }
-    
-    
+    } 
 }
