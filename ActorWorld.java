@@ -20,9 +20,7 @@
  */
 
 import greenfoot.Greenfoot;
-import greenfoot.GreenfootImage;
-import greenfoot.World;
-import greenfoot.Color;
+import greenfoot.*;
 
 import java.util.ArrayList;
 
@@ -33,73 +31,55 @@ import java.util.ArrayList;
 
 public class ActorWorld extends World
 {
-    private static final int DEFAULT_ROWS = 15;
-    private static final int DEFAULT_COLS = 25;
+    private static final int DEFAULT_ROWS = 450;
+    private static final int DEFAULT_COLS = 750;
     private static final int CELL_SIZE = 30;
+    private static final int WIDTH = DEFAULT_COLS * CELL_SIZE;
+    private static final int HEIGHT = DEFAULT_ROWS * CELL_SIZE;
     
     private final char WALL = 'x';
     private final char VOID = '_';
     private final char EMPTY = ' ';
+    private final char GHOST_RED = 'r';
+    private final char GHOST_BLUE = 'b';
+    private final char GHOST_YELLOW = 'y';
+    private final char GHOST_PINK = 'p';
+    private final char PACNYAN = 'A';
 
-    private final char[][] WALL_MAP = 
+    private final char[][] myMap = 
     {
         {'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'},
         {'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x'}, 
         {'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x'}, 
         {'x', ' ', 'x', '_', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', '_', 'x', ' ', 'x'}, 
         {'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x'}, 
-        {'x', ' ', ' ', ' ', ' ', ' ', 'x', '_', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', '_', 'x', ' ', ' ', ' ', ' ', ' ', 'x'}, 
+        {'x', ' ', ' ', ' ', ' ', ' ', 'x', '_', 'x', ' ', ' ', ' ', 'r', ' ', ' ', ' ', 'x', '_', 'x', ' ', ' ', ' ', ' ', ' ', 'x'}, 
         {'x', ' ', 'x', 'x', 'x', ' ', 'x', '_', 'x', ' ', 'x', 'x', ' ', 'x', 'x', ' ', 'x', '_', 'x', ' ', 'x', 'x', 'x', ' ', 'x'}, 
-        {'x', ' ', 'x', '_', 'x', ' ', 'x', '_', 'x', ' ', 'x', ' ', ' ', ' ', 'x', ' ', 'x', '_', 'x', ' ', 'x', '_', 'x', ' ', 'x'}, 
-        {'x', ' ', 'x', 'x', 'x', ' ', 'x', '_', 'x', ' ', 'x', ' ', ' ', ' ', 'x', ' ', 'x', '_', 'x', ' ', 'x', 'x', 'x', ' ', 'x'}, 
-        {'x', ' ', ' ', ' ', ' ', ' ', 'x', '_', 'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x', '_', 'x', ' ', ' ', ' ', ' ', ' ', 'x'}, 
-        {'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x'}, 
-        {'x', ' ', 'x', '_', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', '_', 'x', ' ', 'x'}, 
+        {'x', ' ', 'x', '_', 'x', ' ', 'x', '_', 'x', ' ', 'x', 'b', 'y', 'p', 'x', ' ', 'x', '_', 'x', ' ', 'x', '_', 'x', ' ', 'x'}, 
+        {'x', ' ', 'x', 'x', 'x', ' ', 'x', '_', 'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x', '_', 'x', ' ', 'x', 'x', 'x', ' ', 'x'}, 
+        {'x', ' ', ' ', ' ', ' ', ' ', 'x', '_', 'x', ' ', ' ', ' ', 'x', ' ', ' ', ' ', 'x', '_', 'x', ' ', ' ', ' ', ' ', ' ', 'x'}, 
+        {'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x'}, 
+        {'x', ' ', 'x', '_', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'A', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', '_', 'x', ' ', 'x'}, 
         {'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x'}, 
         {'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x'}, 
         {'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'}
     };
     
-    private final char[][] WALL_MAP_OLD = 
-        {
-            {'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'},
-            {'x', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', 'x'},
-            {'x', ' ', 'x', 'x', 'x', 'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', 'x', 'x', 'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', 'x', 'x', 'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', ' ', 'x'},
-            {'x', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', 'x', ' ', 'x', ' ', 'x', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', 'x'},
-            {'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', ' ', ' ', ' ', 'x', 'x', 'x', ' ', 'x', ' ', 'x', ' ', 'x', ' ', 'x', 'x', 'x', ' ', ' ', ' ', 'x', 'x', 'x', 'x', ' ', 'x', ' ', 'x'},
-            {'x', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', 'x'},
-            {'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', ' ', 'x', 'x', 'x', 'x', ' ', 'x', 'x', 'x', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', 'x'},
-            {'x', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', 'x', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x'},
-            {'x', 'x', 'x', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', 'x', 'x'},
-            {'x', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x'},
-            {'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', 'x'},
-            {'x', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', 'x'},
-            {'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x'},
-            {'x', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', 'x'},
-            {'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', 'x'},
-            {'x', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x'},
-            {'x', 'x', 'x', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', 'x', 'x'},
-            {'x', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', 'x', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x'},
-            {'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', ' ', 'x', 'x', 'x', 'x', ' ', 'x', 'x', 'x', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', 'x'},
-            {'x', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', 'x'},
-            {'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', ' ', ' ', ' ', 'x', 'x', 'x', ' ', 'x', ' ', 'x', ' ', 'x', ' ', 'x', 'x', 'x', ' ', ' ', ' ', 'x', 'x', 'x', 'x', ' ', 'x', ' ', 'x'},
-            {'x', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', 'x', ' ', 'x', ' ', 'x', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', 'x'},
-            {'x', ' ', 'x', 'x', 'x', 'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', 'x', 'x', 'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', 'x', 'x', 'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', ' ', 'x'},
-            {'x', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', 'x'},
-            {'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'}
-        };
-
-    private Grid<GridActor> grid;
+    private ArrayList<Actor> actors;
     
     /**
      * Constructs an actor world with a default grid.
      */
     public ActorWorld()
     {
-        super(DEFAULT_COLS, DEFAULT_ROWS, CELL_SIZE);
-        paintGrid();
-        grid = new BoundedGrid<GridActor>(this);
+        super(DEFAULT_COLS, DEFAULT_ROWS, 1);
+        
+        actors = new ArrayList<Actor>();
+        
+        setBackground(new GreenfootImage("rainbow_background.png"));
         initGameMap();
+        Greenfoot.setSpeed(50);
+       Greenfoot.start();
     }
 
     /**
@@ -107,121 +87,75 @@ public class ActorWorld extends World
      * @param loc the location at which to add the actor
      * @param occupant the actor to add
      */
-    public void add(Location loc, GridActor occupant)
+    public void add(Location loc, Actor occupant)
     {
-        occupant.putSelfInGrid(getGrid(), loc);
+        addObject(occupant, loc.getCol(), loc.getRow());
+        occupant.setLocation(loc.getCol(), loc.getRow());
+        //occupant.putSelfInGrid(getGrid(), loc);
     }
 
     /**
      * Adds an occupant at a random location.
      * @param occupant the occupant to add
      */
-    public void addRandom(GridActor occupant)
+    public void addRandom(Actor occupant)
     {
-        Location loc = getRandomEmptyLocation();
-        if (loc != null)
-            add(loc, occupant);
+        //Location loc = getRandomEmptyLocation();
+       // if (loc != null)
+       //     add(loc, occupant);
     }
     
     /**
      * Adds an occupant at a given location.
      * @param occupant the occupant to add
      */
-    public void add(GridActor occupant, Location loc)
+    public void add(Actor occupant, Location loc)
     {
         if (loc != null)
             add(loc, occupant);
     }
-
-    /**
-     * Removes an actor from this world.
-     * @param loc the location from which to remove an actor
-     * @return the removed actor, or null if there was no actor at the given
-     * location.
-     */
-    public GridActor remove(Location loc)
-    {
-        GridActor occupant = getGrid().get(loc);
-        if (occupant == null)
-            return null;
-        occupant.removeSelfFromGrid();
-        return occupant;
-    }
-
-    /**
-     * Gets a random empty location in this world.
-     * @return a random empty location
-     */
-    public Location getRandomEmptyLocation()
-    { 
-        int rows = getHeight();
-        int cols = getWidth();
-
-        // get all valid empty locations and pick one at random
-        ArrayList<Location> emptyLocs = new ArrayList<Location>();
-        for (int i = 0; i < rows; i++)
-            for (int j = 0; j < cols; j++)
-            {
-                Location loc = new Location(i, j);
-                if (grid.isValid(loc) && grid.get(loc) == null)
-                    emptyLocs.add(loc);
-            }
-        if (emptyLocs.size() == 0)
-            return null;
-        int r = Greenfoot.getRandomNumber(emptyLocs.size());
-        return emptyLocs.get(r);
-    }
-        
-    /**
-     * Greenfoot: Paint the grid pattern onto the background.
-     */
-    public Grid<GridActor> getGrid()
-    {
-        return grid;
-    }
-    
-    /**
-     * Greenfoot: Paint the grid pattern onto the background.
-     */
-    private void paintGrid()
-    {
-        GreenfootImage bg = getBackground();
-        int cellSize = getCellSize();
-        bg.setColor(Color.BLACK);
-        for (int x = 0; x < bg.getWidth(); x += cellSize) {
-            bg.drawLine(x, 0, x, bg.getHeight());
-        }
-        for (int y = 0; y < bg.getHeight(); y += cellSize) {
-            bg.drawLine(0, y, bg.getWidth(), y);
-        }
-        setBackground(bg);
-    }
-
     /**
      * This method contains the code from the 'BugRunner' class from the 
      * 'firstProject' example from the original version.
      */
     public void initGameMap() 
     {
-        createWalls();
+        initSpots();
     }
     
     /**
      * Creates the walls in the map based off char[][] WALL_MAP
      */
-    private void createWalls() {
-        for (int row = 0; row < WALL_MAP.length; row++) {
-            for(int col = 0; col < WALL_MAP[0].length; col++) {
-                if (WALL_MAP[row][col] == WALL) {
-                    add(new Wall(), new Location(row, col));
+    private void initSpots() {
+        for (int row = 0; row < myMap.length; row++) {
+            for(int col = 0; col < myMap[0].length; col++) {
+                int temprow = (int)(row * CELL_SIZE + CELL_SIZE * 0.5);
+                int tempcol = (int)(col * CELL_SIZE + CELL_SIZE * 0.5);
+                
+                if (myMap[row][col] == WALL) {
+                    add(new Wall(), new Location(temprow, tempcol));
                 }
-                else if (WALL_MAP[row][col] == VOID) {
-                    add(new Void(), new Location(row, col));
+                else if (myMap[row][col] == VOID) {
+                    add(new Void(), new Location(temprow, tempcol));
                 }
-                else if (WALL_MAP[row][col] == EMPTY) {
+                else if (myMap[row][col] == EMPTY) {
                     //do nothing
+                } else if (myMap[row][col] == GHOST_RED) {
+                    add(new Blinky(), new Location(temprow, tempcol));
+                } else if (myMap[row][col] == GHOST_BLUE) {
+                    add(new Inky(), new Location(temprow, tempcol));
+                } else if (myMap[row][col] == GHOST_YELLOW) {
+                    add(new Clyde(), new Location(temprow, tempcol));
+                } else if (myMap[row][col] == GHOST_PINK) {
+                    add(new Pinky(), new Location(temprow, tempcol));
+                } else if (myMap[row][col] == PACNYAN) {
+                    add(new PacNyan(), new Location(temprow, tempcol));
                 }
             }
         }
     } 
+    
+    public boolean isWallAtLoc(Location loc) {
+        return myMap[loc.getRow()][loc.getCol()] == WALL;
+    }
 }
