@@ -9,12 +9,21 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import greenfoot.Color;
 public class PacNyan extends Actor
 {
-    private boolean isMovingLeft = true;
-    int counter = 50;
+    private GreenfootImage img;
+    
+    private static final int EAST = 90;
+    private static final int SOUTH = 180;
+    private static final int WEST = 270;
+    private static final int NORTH = 0;
+    
+    private static final int SPEED = 2;
+    
+    private String lastKey; // last key pressed
     
     public PacNyan()
     {
-        getImage().scale(48, 36);
+        img = getImage();
+        img.scale(40, 46);
     }
     /**
      * Act - do whatever the PacNyan wants to do. This method is called whenever
@@ -22,48 +31,102 @@ public class PacNyan extends Actor
      */
     public void act() 
     {
-        if (counter > 0) {
-            moveLeft();
+        if(Greenfoot.isKeyDown("up"))
+        {
+            if(lastKey == "left")
+            {
+                setImage(img);
+                getImage().mirrorHorizontally();
+            }
+            setRotation(NORTH);
+            lastKey = "up";
             
+            if (canMove())
+            {
+                move();
+            }
         }
-        else if (counter > -50){
-            moveRight();
+        else if(Greenfoot.isKeyDown("right"))
+        {
+            if(lastKey == "left")
+            {
+                setImage(img);
+                getImage().mirrorHorizontally();
+            }
+            setRotation(EAST);
+            lastKey = "right";
+            
+            if (canMove())
+            {
+                move();
+            }
         }
-        else if (counter > -100) {
-            moveUp();
+        else if(Greenfoot.isKeyDown("down"))
+        {
+            if(lastKey == "left")
+            {
+                setImage(img);
+                getImage().mirrorHorizontally();
+            }
+            setRotation(SOUTH);
+            lastKey = "down";
+            
+            if (canMove())
+            {
+                move();
+            }
         }
-        else if (counter > -150) {
-            moveDown();
-        }
-        counter--;
-    }    
-    
-    public void moveLeft() {
-        setLocation(getX() - 1, getY());
-        
-        //flip the image
-        if(!isMovingLeft) {
-            setImage(getReverseImage(getImage()));
-            isMovingLeft = true;
+        else if(Greenfoot.isKeyDown("left"))
+        {
+            setRotation(WEST);
+            if(lastKey != "left")
+            {
+               getImage().mirrorHorizontally();
+            }
+            lastKey = "left";
+            
+            if (canMove())
+            {
+                move();
+            }
         }
     }
     
-    public void moveRight() {
-        setLocation(getX() + 1, getY());
-        
-        //flip the image
-        if(isMovingLeft) {
-            setImage(getReverseImage(getImage()));
-            isMovingLeft = false;
+    /**
+     * Moves the NYANCAT forward, putting a flower into the location it previously
+     * occupied.
+     */
+    public void move()
+    {
+        if(lastKey == "up")
+        {
+            setLocation(getX(), getY() - SPEED);
+        }
+        else if(lastKey == "down")
+        {
+            setLocation(getX(), getY() + SPEED);
+        }
+        else if(lastKey == "left")
+        {
+            setLocation(getX() - SPEED, getY());
+        }
+        else if(lastKey == "right")
+        {
+            setLocation(getX() + SPEED, getY());
         }
     }
     
-    public void moveUp() {
-        setLocation(getX(), getY() - 1);
-    }
-    
-    public void moveDown() {
-        setLocation(getX(), getY() + 1);
+    /**
+     * Tests whether this NYANCAT can move forward into a location that is empty or
+     * contains a flower.
+     * @return true if this NYANCAT can move.
+     */
+    public boolean canMove()
+    {
+        return true;
+        // ok to move into empty location or onto flower
+        // not ok to move onto any other actor
+        // EDIT TO RESTRICT TO IF WALL IS IN THE WAY, ETC.
     }
     
     public GreenfootImage getReverseImage(GreenfootImage img) {
