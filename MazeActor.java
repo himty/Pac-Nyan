@@ -23,28 +23,32 @@ public abstract class MazeActor extends Actor
             int wallX = (int)(getX() / CELL_SIZE) * CELL_SIZE + CELL_SIZE / 2;
             int wallY = (int)(getY() / CELL_SIZE) * CELL_SIZE - CELL_SIZE / 2;
             return (!isVerticallyCentered() || getWorld().getObjectsAt(wallX, wallY, Wall.class).isEmpty() == true
-                && getWorld().getObjectsAt(wallX, wallY, Void.class).isEmpty() == true)
+                && getWorld().getObjectsAt(wallX, wallY, Void.class).isEmpty() == true
+                && getWorld().getObjectsAt(wallX, wallY, Bar.class).isEmpty() == true)
                 && isHorizontallyCentered();
         }
         else if (dir.equals("down")) {
             int wallX = (int)(getX() / CELL_SIZE) * CELL_SIZE + CELL_SIZE / 2;
             int wallY = ((int)(getY() / CELL_SIZE) + 1) * CELL_SIZE + CELL_SIZE / 2;
             return (!isVerticallyCentered() ||getWorld().getObjectsAt(wallX, wallY, Wall.class).isEmpty() == true
-                && getWorld().getObjectsAt(wallX, wallY, Void.class).isEmpty() == true)
+                && getWorld().getObjectsAt(wallX, wallY, Void.class).isEmpty() == true
+                && getWorld().getObjectsAt(wallX, wallY, Bar.class).isEmpty() == true)
                 && isHorizontallyCentered();
         }
         else if (dir.equals("left")) {
             int wallX = (int)(getX() / CELL_SIZE) * CELL_SIZE - CELL_SIZE / 2;
             int wallY = (int)(getY() / CELL_SIZE) * CELL_SIZE + CELL_SIZE / 2;
             return (!isHorizontallyCentered() || getWorld().getObjectsAt(wallX, wallY, Wall.class).isEmpty() == true
-                && getWorld().getObjectsAt(wallX, wallY, Void.class).isEmpty() == true)
+                && getWorld().getObjectsAt(wallX, wallY, Void.class).isEmpty() == true
+                && getWorld().getObjectsAt(wallX, wallY, Bar.class).isEmpty() == true)
                 && isVerticallyCentered();
         }
         else if (dir.equals("right")){
             int wallX = ((int)(getX() / CELL_SIZE) + 1) * (CELL_SIZE) + CELL_SIZE / 2;
             int wallY = (int)(getY() / CELL_SIZE) * CELL_SIZE + CELL_SIZE / 2;
             return (!isHorizontallyCentered() || getWorld().getObjectsAt(wallX, wallY, Wall.class).isEmpty() == true
-                && getWorld().getObjectsAt(wallX, wallY, Void.class).isEmpty() == true)
+                && getWorld().getObjectsAt(wallX, wallY, Void.class).isEmpty() == true
+                && getWorld().getObjectsAt(wallX, wallY, Bar.class).isEmpty() == true)
                 && isVerticallyCentered();
         }
         else {
