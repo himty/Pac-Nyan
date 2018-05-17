@@ -39,6 +39,8 @@ public class ActorWorld extends World
     
     private final char WALL = 'x';
     private final char VOID = '_';
+    private final char PACDOT = 'o';
+    private final char POWERPELLET = 'G';
     private final char BAR = '-';
     private final char EMPTY = ' ';
     private final char GHOST_RED = 'r';
@@ -56,6 +58,8 @@ public class ActorWorld extends World
      */
     public ActorWorld()
     {
+        super(DEFAULT_COLS, DEFAULT_ROWS, 1);
+        myMap = new char[][]
        {
         {'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'},
         {'x', 'G', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'x', 'G', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'G', 'x'}, 
@@ -117,30 +121,30 @@ public class ActorWorld extends World
     private void initSpots() {
         for (int row = 0; row < myMap.length; row++) {
             for(int col = 0; col < myMap[0].length; col++) {
-                int temprow = (int)(row * CELL_SIZE + CELL_SIZE * 0.5);
-                int tempcol = (int)(col * CELL_SIZE + CELL_SIZE * 0.5);
+                int tempRow = (int)(row * CELL_SIZE + CELL_SIZE * 0.5);
+                int tempCol = (int)(col * CELL_SIZE + CELL_SIZE * 0.5);
                 
                 if (myMap[row][col] == WALL) {
-                    add(new Wall(), new Location(temprow, tempcol));
+                    add(new Wall(), new Location(tempRow, tempCol));
                 }
                 else if (myMap[row][col] == VOID) {
-                    add(new Void(), new Location(temprow, tempcol));
+                    add(new Void(), new Location(tempRow, tempCol));
                 }
                 else if (myMap[row][col] == BAR) {
-                    add(new Bar(), new Location(temprow, tempcol));
+                    add(new Bar(), new Location(tempRow, tempCol));
                 }
                 else if (myMap[row][col] == EMPTY) {
                     //do nothing
                 } else if (myMap[row][col] == GHOST_RED) {
-                    add(new Blinky(), new Location(temprow, tempcol));
+                    add(new Blinky(), new Location(tempRow, tempCol));
                 } else if (myMap[row][col] == GHOST_BLUE) {
-                    add(new Inky(), new Location(temprow, tempcol));
+                    add(new Inky(), new Location(tempRow, tempCol));
                 } else if (myMap[row][col] == GHOST_YELLOW) {
-                    add(new Clyde(), new Location(temprow, tempcol));
+                    add(new Clyde(), new Location(tempRow, tempCol));
                 } else if (myMap[row][col] == GHOST_PINK) {
-                    add(new Pinky(), new Location(temprow, tempcol));
+                    add(new Pinky(), new Location(tempRow, tempCol));
                 } else if (myMap[row][col] == PACNYAN) {
-                    add(new PacNyan(), new Location(temprow, tempcol));
+                    add(new PacNyan(), new Location(tempRow, tempCol));
                 } else if (myMap[row][col] == PACDOT) {
                     add(new PacDot(), new Location(tempRow, tempCol));
                 } else if (myMap[row][col] == POWERPELLET) {
