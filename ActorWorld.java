@@ -39,6 +39,7 @@ public class ActorWorld extends World
     
     private final char WALL = 'x';
     private final char VOID = '_';
+    private final char BAR = '-';
     private final char EMPTY = ' ';
     private final char GHOST_RED = 'r';
     private final char GHOST_BLUE = 'b';
@@ -64,7 +65,7 @@ public class ActorWorld extends World
                 {'x', ' ', 'x', '_', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', '_', 'x', ' ', 'x'}, 
                 {'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x'}, 
                 {'x', ' ', ' ', ' ', ' ', ' ', 'x', '_', 'x', ' ', ' ', ' ', 'r', ' ', ' ', ' ', 'x', '_', 'x', ' ', ' ', ' ', ' ', ' ', 'x'}, 
-                {'x', ' ', 'x', 'x', 'x', ' ', 'x', '_', 'x', ' ', 'x', 'x', ' ', 'x', 'x', ' ', 'x', '_', 'x', ' ', 'x', 'x', 'x', ' ', 'x'}, 
+                {'x', ' ', 'x', 'x', 'x', ' ', 'x', '_', 'x', ' ', 'x', 'x', '-', 'x', 'x', ' ', 'x', '_', 'x', ' ', 'x', 'x', 'x', ' ', 'x'}, 
                 {'x', ' ', 'x', '_', 'x', ' ', 'x', '_', 'x', ' ', 'x', 'b', 'y', 'p', 'x', ' ', 'x', '_', 'x', ' ', 'x', '_', 'x', ' ', 'x'}, 
                 {'x', ' ', 'x', 'x', 'x', ' ', 'x', '_', 'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x', '_', 'x', ' ', 'x', 'x', 'x', ' ', 'x'}, 
                 {'x', ' ', ' ', ' ', ' ', ' ', 'x', '_', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', '_', 'x', ' ', ' ', ' ', ' ', ' ', 'x'}, 
@@ -126,6 +127,9 @@ public class ActorWorld extends World
                 }
                 else if (myMap[row][col] == VOID) {
                     add(new Void(), new Location(temprow, tempcol));
+                }
+                else if (myMap[row][col] == BAR) {
+                    add(new Bar(), new Location(temprow, tempcol));
                 }
                 else if (myMap[row][col] == EMPTY) {
                     //do nothing
