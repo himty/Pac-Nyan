@@ -46,24 +46,7 @@ public class ActorWorld extends World
     private final char GHOST_PINK = 'p';
     private final char PACNYAN = 'A';
 
-    private final char[][] myMap = 
-    {
-        {'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'},
-        {'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x'}, 
-        {'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x'}, 
-        {'x', ' ', 'x', '_', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', '_', 'x', ' ', 'x'}, 
-        {'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x'}, 
-        {'x', ' ', ' ', ' ', ' ', ' ', 'x', '_', 'x', ' ', ' ', ' ', 'r', ' ', ' ', ' ', 'x', '_', 'x', ' ', ' ', ' ', ' ', ' ', 'x'}, 
-        {'x', ' ', 'x', 'x', 'x', ' ', 'x', '_', 'x', ' ', 'x', 'x', ' ', 'x', 'x', ' ', 'x', '_', 'x', ' ', 'x', 'x', 'x', ' ', 'x'}, 
-        {'x', ' ', 'x', '_', 'x', ' ', 'x', '_', 'x', ' ', 'x', 'b', 'y', 'p', 'x', ' ', 'x', '_', 'x', ' ', 'x', '_', 'x', ' ', 'x'}, 
-        {'x', ' ', 'x', 'x', 'x', ' ', 'x', '_', 'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x', '_', 'x', ' ', 'x', 'x', 'x', ' ', 'x'}, 
-        {'x', ' ', ' ', ' ', ' ', ' ', 'x', '_', 'x', ' ', ' ', ' ', 'x', ' ', ' ', ' ', 'x', '_', 'x', ' ', ' ', ' ', ' ', ' ', 'x'}, 
-        {'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x'}, 
-        {'x', ' ', 'x', '_', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'A', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', '_', 'x', ' ', 'x'}, 
-        {'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x'}, 
-        {'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x'}, 
-        {'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'}
-    };
+    private char[][] myMap;
     
     private ArrayList<Actor> actors;
     
@@ -72,13 +55,31 @@ public class ActorWorld extends World
      */
     public ActorWorld()
     {
-        super(DEFAULT_COLS, DEFAULT_ROWS, 1);
+       super(DEFAULT_COLS, DEFAULT_ROWS, 1);
         
-        actors = new ArrayList<Actor>();
+       myMap = new char[][] {
+                {'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'},
+                {'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x'}, 
+                {'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x'}, 
+                {'x', ' ', 'x', '_', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', '_', 'x', ' ', 'x'}, 
+                {'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x'}, 
+                {'x', ' ', ' ', ' ', ' ', ' ', 'x', '_', 'x', ' ', ' ', ' ', 'r', ' ', ' ', ' ', 'x', '_', 'x', ' ', ' ', ' ', ' ', ' ', 'x'}, 
+                {'x', ' ', 'x', 'x', 'x', ' ', 'x', '_', 'x', ' ', 'x', 'x', ' ', 'x', 'x', ' ', 'x', '_', 'x', ' ', 'x', 'x', 'x', ' ', 'x'}, 
+                {'x', ' ', 'x', '_', 'x', ' ', 'x', '_', 'x', ' ', 'x', 'b', 'y', 'p', 'x', ' ', 'x', '_', 'x', ' ', 'x', '_', 'x', ' ', 'x'}, 
+                {'x', ' ', 'x', 'x', 'x', ' ', 'x', '_', 'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x', '_', 'x', ' ', 'x', 'x', 'x', ' ', 'x'}, 
+                {'x', ' ', ' ', ' ', ' ', ' ', 'x', '_', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', '_', 'x', ' ', ' ', ' ', ' ', ' ', 'x'}, 
+                {'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x'}, 
+                {'x', ' ', 'x', '_', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'A', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', '_', 'x', ' ', 'x'}, 
+                {'x', ' ', 'x', 'x', 'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x', ' ', 'x', 'x', 'x', 'x', 'x', ' ', 'x', 'x', 'x', ' ', 'x'}, 
+                {'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x'}, 
+                {'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'}
+            };
         
-        setBackground(new GreenfootImage("rainbow_background.png"));
-        initGameMap();
-        Greenfoot.setSpeed(50);
+       actors = new ArrayList<Actor>();
+        
+       setBackground(new GreenfootImage("rainbow_background.png"));
+       initGameMap();
+       Greenfoot.setSpeed(60);
        Greenfoot.start();
     }
 
@@ -91,18 +92,6 @@ public class ActorWorld extends World
     {
         addObject(occupant, loc.getCol(), loc.getRow());
         occupant.setLocation(loc.getCol(), loc.getRow());
-        //occupant.putSelfInGrid(getGrid(), loc);
-    }
-
-    /**
-     * Adds an occupant at a random location.
-     * @param occupant the occupant to add
-     */
-    public void addRandom(Actor occupant)
-    {
-        //Location loc = getRandomEmptyLocation();
-       // if (loc != null)
-       //     add(loc, occupant);
     }
     
     /**
