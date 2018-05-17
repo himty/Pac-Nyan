@@ -19,6 +19,9 @@ public class PacNyan extends Actor
     private static final int SPEED = 1;
     
     private String lastKey; // last key pressed
+    private String queuedKey; // last key that was unsuccessfully pressed
+                              // (there was a wall in that direction)
+    private String currDirection;
     
     private static final int CELL_SIZE = 30;
     private static final int WIDTH = 40;
@@ -32,7 +35,9 @@ public class PacNyan extends Actor
     {
         img = getImage();
         img.scale(WIDTH, HEIGHT);
-        lastKey = "up";
+        lastKey = "-";
+        queuedKey = "-";
+        currDirection = lastKey;
     }
     
     /**
@@ -42,136 +47,129 @@ public class PacNyan extends Actor
     public void act() 
     {
         if(Greenfoot.isKeyDown("up"))
-        {
-            setImage(img);
-            setRotation(NORTH);
-            
+        {           
             lastKey = "up";
-            
-            int newX = getX();
-            int newY = getY() - SPEED;
-            
-            if (canMove())
-            {
-                moveTo(newX, newY);
-            }
         }
         else if(Greenfoot.isKeyDown("right"))
-        {
-            setImage(img);
-            setRotation(EAST);
-            
+        {            
             lastKey = "right";
-            
-            int newX = getX() + SPEED;
-            int newY = getY();
-            
-            if (canMove())
-            {
-                moveTo(newX, newY);
-            }
         }
         else if(Greenfoot.isKeyDown("down"))
-        {
-            setImage(img);
-            setRotation(SOUTH);
-            
+        {            
             lastKey = "down";
-            
-            int newX = getX();
-            int newY = getY() + SPEED;
-            
-            if (canMove())
-            {
-                moveTo(newX, newY);
-            }
         }
         else if(Greenfoot.isKeyDown("left"))
-        {
-            setRotation(WEST);
-            setImage(getHorizImage(img));
-            
+        {         
             lastKey = "left";
-            
-            int newX = getX() - SPEED;
-            int newY = getY();
-            
-            if (canMove())
-            {
-                moveTo(newX, newY);
-            }
+        }        
+                    
+        if (canMove(queuedKey))
+        {
+            currDirection = queuedKey;
+            lastKey = queuedKey;
+            setImageDir(queuedKey);
+            move(queuedKey);
+            queuedKey = "-";
         }
-        
-        /*
-        if(!hasWallOnRight()) {
-            moveLeft();
+        else if (canMove(lastKey)) {
+            currDirection = lastKey;
+            setImageDir(lastKey);
+            move(lastKey);
         }
         else {
-            moveDown();
+            if (canMove(currDirection)) {
+                move(currDirection);
+            }
+            //couldn't move at all
+            if (lastKey != currDirection) {
+                 queuedKey = lastKey;
+            }
         }
-        */
     }   
     
-    /**
+    public void setImageDir(String dir) {
+        if (dir.equals("up")) {
+            setImage(img);
+            setRotation(NORTH);
+        }
+        else if (dir.equals("right")) {
+            setImage(img);
+            setRotation(EAST);
+        }
+        else if (dir.equals("down")) {
+            setImage(img);
+            setRotation(SOUTH);
+        }
+        else if (dir.equals("left")){
+            setRotation(WEST);
+            setImage(getHorizImage(img));
+        }
+    }
+    
+    public boolean canMove(String dir) {
+        if (dir.equals("up")) {
+            int wallX = (int)(getX() / CELL_SIZE) * CELL_SIZE + CELL_SIZE / 2;
+            int wallY = (int)(getY() / CELL_SIZE) * CELL_SIZE - CELL_SIZE / 2;
+            return (!isVerticallyCentered() || getWorld().getObjectsAt(wallX, wallY, Wall.class).isEmpty() == true
+                && getWorld().getObjectsAt(wallX, wallY, Void.class).isEmpty() == true)
+                && isHorizontallyCentered();
+        }
+        else if (dir.equals("down")) {
+            int wallX = (int)(getX() / CELL_SIZE) * CELL_SIZE + CELL_SIZE / 2;
+            int wallY = ((int)(getY() / CELL_SIZE) + 1) * CELL_SIZE + CELL_SIZE / 2;
+            return (!isVerticallyCentered() ||getWorld().getObjectsAt(wallX, wallY, Wall.class).isEmpty() == true
+                && getWorld().getObjectsAt(wallX, wallY, Void.class).isEmpty() == true)
+                && isHorizontallyCentered();
+        }
+        else if (dir.equals("left")) {
+            int wallX = (int)(getX() / CELL_SIZE) * CELL_SIZE - CELL_SIZE / 2;
+            int wallY = (int)(getY() / CELL_SIZE) * CELL_SIZE + CELL_SIZE / 2;
+            return (!isHorizontallyCentered() || getWorld().getObjectsAt(wallX, wallY, Wall.class).isEmpty() == true
+                && getWorld().getObjectsAt(wallX, wallY, Void.class).isEmpty() == true)
+                && isVerticallyCentered();
+        }
+        else if (dir.equals("right")){
+            int wallX = ((int)(getX() / CELL_SIZE) + 1) * (CELL_SIZE) + CELL_SIZE / 2;
+            int wallY = (int)(getY() / CELL_SIZE) * CELL_SIZE + CELL_SIZE / 2;
+            return (!isHorizontallyCentered() || getWorld().getObjectsAt(wallX, wallY, Wall.class).isEmpty() == true
+                && getWorld().getObjectsAt(wallX, wallY, Void.class).isEmpty() == true)
+                && isVerticallyCentered();
+        }
+        else {
+            //if dir == "-" (a placeholder)
+            return false;
+        }
+    }
+    
+        /**
      * Moves the NYANCAT forward, putting a flower into the location it previously
      * occupied.
      */
-    public void move()
+    public void move(String dir)
     {
-        if(lastKey.equals("up"))
+        if(dir.equals("up"))
         {
             setLocation(getX(), getY() - SPEED);
         }
-        else if(lastKey.equals("down"))
+        else if(dir.equals("down"))
         {
             setLocation(getX(), getY() + SPEED);
         }
-        else if(lastKey.equals("left"))
+        else if(dir.equals("left"))
         {
             setLocation(getX() - SPEED, getY());
         }
-        else if(lastKey.equals("right"))
+        else if(dir.equals("right"))
         {
             setLocation(getX() + SPEED, getY());
         }
     }
-    
-    private boolean canMove() {
-        System.out.println("HorizCentered: " + isHorizontallyCentered());
-        System.out.println("VertCentered: " + isVerticallyCentered());
-        System.out.println("X: " + getX() + " Y: " + getY());
-        if (lastKey.equals("up")) {
-            return getWorld().getObjectsAt(getX(), (int)(getY() - CELL_SIZE * 0.5) - 1, Wall.class).isEmpty() == true
-                && getWorld().getObjectsAt(getX(), (int)(getY() - CELL_SIZE * 0.5) - 1, Void.class).isEmpty() == true
-                && isHorizontallyCentered();
-        }
-        else if (lastKey.equals("down")) {
-            return getWorld().getObjectsAt(getX(), (int)(getY() + CELL_SIZE * 0.5), Wall.class).isEmpty() == true
-                && getWorld().getObjectsAt(getX(), (int)(getY() + CELL_SIZE * 0.5), Void.class).isEmpty() == true
-                && isHorizontallyCentered();
-        }
-        else if (lastKey.equals("left")) {
-            return getWorld().getObjectsAt((int)(getX() - CELL_SIZE * 0.5) - 1, getY(), Wall.class).isEmpty() == true
-                && getWorld().getObjectsAt((int)(getX() - CELL_SIZE * 0.5) - 1, getY(), Void.class).isEmpty() == true
-                && isVerticallyCentered();
-        }
-        else {
-            //lastKey == right
-            return getWorld().getObjectsAt((int)(getX() + CELL_SIZE * 0.5), getY(), Wall.class).isEmpty() == true
-                && getWorld().getObjectsAt((int)(getX() + CELL_SIZE * 0.5), getY(), Void.class).isEmpty() == true
-                && isVerticallyCentered();
-        }
-    }
-    
-    public void moveTo(int x, int y) {
-        setLocation(x, y);
-    }
-    
+
     /**
      * Returns whether this actor is in the middle of a
      * cell in terms of y-coordinate
      */
-    public boolean isVerticallyCentered() {
+    private boolean isVerticallyCentered() {
         return (getY() - CELL_SIZE / 2) % CELL_SIZE == 0;
     }
     
@@ -179,7 +177,7 @@ public class PacNyan extends Actor
      * Returns whether this actor is in the middle of a
      * cell in terms of x-coordinate
      */
-    public boolean isHorizontallyCentered() {
+    private boolean isHorizontallyCentered() {
         return (getX() - CELL_SIZE / 2) % CELL_SIZE == 0;
     }
     
@@ -210,41 +208,4 @@ public class PacNyan extends Actor
         setRotation(tempRotation);
         return image;
     }
-    
-    public static int getVertOffset() {
-        return VERT_OFFSET - CELL_SIZE / 2;
-    }
-    
-    public static int getHorizOffset() {
-        return HORIZ_OFFSET_LEFT - CELL_SIZE / 2;
-    }
-   
-    /*
-     public boolean hasWallAbove() {
-         return !canMoveTo(getX(), getY() - VERT_OFFSET);
-    }
-    
-    public boolean hasWallBelow() {
-        return !canMoveTo(getX(), getY() + VERT_OFFSET + CELL_SIZE);
-    }
-    
-    public boolean hasWallOnLeft() {
-        return !canMoveTo(getX() - HORIZ_OFFSET_LEFT, getY());
-    }
-    
-    public boolean hasWallOnRight() {
-        return !canMoveTo(getX() + HORIZ_OFFSET_RIGHT, getY());
-    }
-    
-    private GreenfootImage getReverseImage(GreenfootImage img) {
-        int w = img.getWidth(), h = img.getHeight();
-        GreenfootImage image = new GreenfootImage(w, h);
-        for (int y = 0; y < h; y++) {
-            for (int x = 1; x <= w; x++) {
-                image.setColorAt(w-x, y, img.getColorAt(x-1, y));
-            }
-        }
-        return image;
-    }
-    */
 }
