@@ -36,6 +36,7 @@ public class ActorWorld extends World
     private static final int CELL_SIZE = 30;
     private static final int WIDTH = DEFAULT_COLS * CELL_SIZE;
     private static final int HEIGHT = DEFAULT_ROWS * CELL_SIZE;
+    private static final int MENU_HEIGHT = 45;
     
     private final char WALL = 'x';
     private final char VOID = '_';
@@ -79,6 +80,7 @@ public class ActorWorld extends World
     };
         
        actors = new ArrayList<Actor>();
+       setPaintOrder(PacNyan.class, Blinky.class, Inky.class, Pinky.class, Clyde.class, Wall.class, Void.class);
         
        setBackground(new GreenfootImage("rainbow_background.png"));
        initGameMap();
@@ -119,6 +121,8 @@ public class ActorWorld extends World
      * Creates the walls in the map based off char[][] WALL_MAP
      */
     private void initSpots() {
+        add(new Menu(DEFAULT_COLS, MENU_HEIGHT), new Location(myMap.length * CELL_SIZE + MENU_HEIGHT / 2, myMap[0].length * CELL_SIZE / 2));
+        
         for (int row = 0; row < myMap.length; row++) {
             for(int col = 0; col < myMap[0].length; col++) {
                 int tempRow = (int)(row * CELL_SIZE + CELL_SIZE * 0.5);
