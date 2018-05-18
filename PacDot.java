@@ -6,22 +6,10 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class PacDot extends GridActor
+public class PacDot extends Food
 {
     public PacDot()
     {
-        GreenfootImage image = getImage();
-        image.scale(image.getWidth() - 890 , image.getHeight() - 670); //diff = 220
-        setImage(image);
-        
-    }
-    public boolean isEaten()
-    {
-        PacNyan pac = new PacNyan();
-        if (pac.getLocation() == getLocation())
-        {
-            removeSelfFromGrid();
-        }
     }
     /**
      * Act - do whatever the PacDot wants to do. This method is called whenever
@@ -29,6 +17,10 @@ public class PacDot extends GridActor
      */
     public void act() 
     {
-        // Add your action code here.
+        getImage().scale( 40,30);
     }    
+    public boolean isEaten()
+    {
+       return getWorld().getObjectsAt(0, 0, PacNyan.class).isEmpty();
+    }
 }
