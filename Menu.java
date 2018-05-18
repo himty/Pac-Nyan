@@ -42,12 +42,19 @@ public class Menu extends Actor
         setImage(image);
     }
     
-    /**
-     * Act - do whatever the Menu wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
-    public void act() 
-    {
-        // Add your action code here.
-    }    
+    public void increaseScoreBy(int points) {
+        myScore += points;
+    }
+    
+    public void decreaseLives() {
+        myLives--;
+    }
+    
+    public int getScore() {
+        return myScore;
+    }
+    
+    public int getLives() {
+        return myLives;
+    }
 }
