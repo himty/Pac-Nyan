@@ -59,7 +59,7 @@ public class ActorWorld extends World
      */
     public ActorWorld()
     {
-        super(DEFAULT_COLS, DEFAULT_ROWS, 1);
+        super(DEFAULT_COLS, DEFAULT_ROWS + MENU_HEIGHT, 1);
         myMap = new char[][]
        {
         {'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'},
