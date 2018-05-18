@@ -40,7 +40,7 @@ public class Inky extends Ghost
         getImage().scale(30, 30);
         homeX = 345;
         homeY = 225;
-        currDirection = "right";
+        currDirection = "-";
     }
     
     /**
@@ -55,8 +55,8 @@ public class Inky extends Ghost
     
     private void goHome() {        
         if (isHorizontallyCentered() && isVerticallyCentered()) {
-        int centeredX = (int)((getX() - CELL_SIZE / 2 + 1) / CELL_SIZE);
-        int centeredY = (int)((getY() - CELL_SIZE / 2 + 1) / CELL_SIZE);
+            int centeredX = (int)((getX() - CELL_SIZE / 2) / CELL_SIZE);
+            int centeredY = (int)((getY() - CELL_SIZE / 2) / CELL_SIZE);
             if (flowMap[centeredY][centeredX] == RIGHT) {
                 currDirection = "right";
             }
