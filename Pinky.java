@@ -10,7 +10,6 @@ import java.util.List;
 public class Pinky extends Ghost
 {
     private String currDirection;
-    private int counter;
     
     public Pinky() {
         getImage().scale(30, 30);
@@ -31,7 +30,6 @@ public class Pinky extends Ghost
             String pacDir = pac.getDirection();
 
             if (getX() <= pacX) {
-                System.out.println("on left ");
                 //Pinky is on the left. Close in on the pacNyan
                 if (getY() < pacY && canMove("down")) {
                     currDirection = "down";
@@ -64,7 +62,6 @@ public class Pinky extends Ghost
                 }
             }
 
-            counter--;
             if (canMove(currDirection)) {
                 move(currDirection);
             }
