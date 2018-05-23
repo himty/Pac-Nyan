@@ -1,3 +1,5 @@
+import java.util.List;
+
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
@@ -11,7 +13,10 @@ public class Inky extends Ghost
     private static final int CELL_SIZE = 30;
     private int homeX;
     private int homeY;
+    private int pacX;
+    private int pacY;
     private String currDirection;
+    private boolean isFollowingPacNyan;
     
     private final char LEFT = 'l';
     private final char RIGHT = 'r';
@@ -38,9 +43,14 @@ public class Inky extends Ghost
     
     public Inky() {
         getImage().scale(30, 30);
-        homeX = 345;
-        homeY = 225;
+        homeX = 375;
+        homeY = 165;
         currDirection = "-";
+        isFollowingPacNyan = true;
+        
+        //to not mess up calculations
+        pacX = Integer.MAX_VALUE;
+        pacY = Integer.MAX_VALUE;
     }
     
     /**
@@ -49,11 +59,84 @@ public class Inky extends Ghost
      */
     public void act() 
     {
-        goHome();
-        // Add your action code here.
+    	if (isFollowingPacNyan
+    			&& (getX() - pacX) * (getX() - pacX) + (getY() - pacY) * (getY() - pacY) > 15000) {
+    		followPacNyan();
+    	}
+    	else if (isFollowingPacNyan) {
+    		// too close to the PacNyan
+    		if (Math.random() < 0.005) {
+    			isFollowingPacNyan = false;
+    			goHome();
+    		}
+    		else {
+    			followPacNyan();
+    		}
+    	} else {
+    		if(getX() == homeX && getY() == homeY) {
+    			isFollowingPacNyan = true;
+    			followPacNyan();
+    		}
+    		else {
+    			goHome();
+    		}
+    	}
     }   
     
-    private void goHome() {        
+    private void followPacNyan() {
+        List<PacNyan> list = getWorld().getObjects(PacNyan.class);
+        if (list.size() > 0) {
+            PacNyan pac = list.get(0);
+            pacX = pac.getXCoord();
+            pacY = pac.getYCoord();
+
+            if (getX() <= pacX) {
+                //Pinky is on the left. Close in on the pacNyan
+                if (getY() < pacY && canMove("down")) {
+                    currDirection = "down";
+                }
+                else if (getY() > pacY && canMove("up")) {
+                    currDirection = "up";
+                }
+                else if (canMove("right")){
+                    currDirection = "right";
+                }
+                else {
+                    //if this is a dead end
+                    currDirection = "left";
+                }
+            }
+            else {
+                //Pinky is on the right. keep going left
+                if (canMove("left")) {
+                    currDirection = "left";
+                }
+                else if (getY() < pacY && canMove("down")) {
+                    currDirection = "down";
+                }
+                else if (getY() > pacY && canMove("up")) {
+                    currDirection = "up";
+                }
+                else {
+                    //if this is a dead end
+                    currDirection = "right";
+                }
+            }
+
+            if (canMove(currDirection)) {
+                move(currDirection);
+            }
+        }
+    }
+    
+    private void goHome() {   
+        List<PacNyan> list = getWorld().getObjects(PacNyan.class);
+        if (list.size() > 0) {
+            PacNyan pac = list.get(0);
+            pacX = pac.getXCoord();
+            pacY = pac.getYCoord();
+        }
+    	
         if (isHorizontallyCentered() && isVerticallyCentered()) {
             int centeredX = (int)((getX() - CELL_SIZE / 2) / CELL_SIZE);
             int centeredY = (int)((getY() - CELL_SIZE / 2) / CELL_SIZE);
@@ -79,11 +162,5 @@ public class Inky extends Ghost
         if (canMove(currDirection)) {
             move(currDirection);
         }
-    }
-    
-    public void getCoords() {
-        int myX = (int)(getX() / CELL_SIZE) * CELL_SIZE + CELL_SIZE / 2;
-        int myY = (int)(getY() / CELL_SIZE) * CELL_SIZE + CELL_SIZE / 2;
-        System.out.println("x: " + myX + " y: " + myY);
     }
 }
