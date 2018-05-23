@@ -23,10 +23,7 @@ public class PacNyan extends MazeActor
     
     private static final int WIDTH = 40;
     private static final int HEIGHT = 46;
-    private static final int HORIZ_OFFSET_LEFT = WIDTH / 2;
-    private static final int HORIZ_OFFSET_RIGHT = WIDTH / 2;
-    private static final int VERT_OFFSET = HEIGHT / 2;
-    private boolean isMovingLeft = true;
+    private static final int CELL_SIZE = 30;
     
     public PacNyan()
     {
@@ -83,7 +80,7 @@ public class PacNyan extends MazeActor
                  queuedKey = lastKey;
             }
         }
-    }   
+    }
     
     public void setImageDir(String dir) {
         if (dir.equals("up")) {
@@ -103,5 +100,16 @@ public class PacNyan extends MazeActor
             setImage(getHorizImage(img));
         }
     }
+    
+    public int getXCoord() {
+        return getX();
+    }
+    
+    public int getYCoord() {
+        return getY();
+    }
+    
+    public String getDirection() {
+        return currDirection;
+    }
 }
-   
