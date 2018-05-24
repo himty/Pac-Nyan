@@ -12,10 +12,19 @@ public class Menu extends Actor
     private int myHeight;
     private int myScore;
     private int myLives;
-    
+
     public Menu(int w, int h) {
         myWidth = w;
         myHeight = h;
+        myScore = 0;
+        myLives = 3;
+        
+        updateMenu();
+    }
+    public Menu()
+    {
+        myWidth = 750;
+        myHeight = 450;
         myScore = 0;
         myLives = 3;
         
@@ -42,7 +51,7 @@ public class Menu extends Actor
         setImage(image);
     }
     
-    public void increaseScoreBy(int points) {
+    public void addPoints(int points) {
         myScore += points;
     }
     
