@@ -26,6 +26,7 @@ public class PacNyan extends MazeActor
     private static final int CELL_SIZE = 30;
     private int points;
     private int ghostTimer;
+    Menu menu = new Menu();
     
     public PacNyan()
     {
@@ -86,6 +87,8 @@ public class PacNyan extends MazeActor
         }
         if (getWorld().getObjects(Fruit.class).isEmpty()){generateFruit();}
         eat();
+        menu.addPoints( points);
+        menu.updateMenu();
     }
     public void generateFruit()
     {
