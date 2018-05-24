@@ -22,7 +22,7 @@ public class Menu extends Actor
         updateMenu();
     }
     
-    private void updateMenu() {
+    public void updateMenu() {
         int fontSize = 24;
         Color textColor = new Color(50, 150, 50);
         String scoreStr = "Score: " + myScore;
