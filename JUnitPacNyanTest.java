@@ -60,10 +60,10 @@ public class JUnitPacNyanTest
 		PacNyan pac = new PacNyan();
 		ActorWorld w = new ActorWorld();
 		
-		int bInitX = 45;
-		int bInitY = 45;
-		int pacInitX = 75;
-		int pacInitY = 45;
+		int bInitX = 1;
+		int bInitY = 1;
+		int pacInitX = 2;
+		int pacInitY = 1;
 		
 		w.add(b, new Location(bInitX, bInitY));
 		w.add(pac, new Location(pacInitX, pacInitY));
@@ -95,8 +95,8 @@ public class JUnitPacNyanTest
 		Clyde c = new Clyde();
 		ActorWorld w = new ActorWorld();
 		
-		int cInitX = 45;
-		int cInitY = 45;
+		int cInitX = 1;
+		int cInitY = 1;
 		
 		w.add(c, new Location(cInitX, cInitY));		
 		c.act();
@@ -157,10 +157,10 @@ public class JUnitPacNyanTest
 		PacNyan pac = new PacNyan();
 		ActorWorld w = new ActorWorld();
 		
-		int iInitX = 45;
-		int iInitY = 45;
-		int pacInitX = 75;
-		int pacInitY = 45;
+		int iInitX = 1;
+		int iInitY = 1;
+		int pacInitX = 2;
+		int pacInitY = 1;
 		
 		w.add(i, new Location(iInitX, iInitY));
 		w.add(pac, new Location(pacInitX, pacInitY));
@@ -178,10 +178,10 @@ public class JUnitPacNyanTest
 		PacNyan pac = new PacNyan();
 		ActorWorld w = new ActorWorld();
 		
-		int iInitX = 45;
-		int iInitY = 45;
-		int pacInitX = 75;
-		int pacInitY = 45;
+		int iInitX = 1;
+		int iInitY = 1;
+		int pacInitX = 2;
+		int pacInitY = 1;
 		
 		w.add(i, new Location(iInitX, iInitY));
 		w.add(pac, new Location(pacInitX, pacInitY));
@@ -195,8 +195,142 @@ public class JUnitPacNyanTest
 	// -- Test MazeActor
 	/**
 	 * MazeActor Tests:
-	 * - 
+	 * - MazeActorConstructor - constructs MazeActor and tests if not null
+	 * - MazeActorCanMoveUp - compares returned value with known value
+	 * - MazeActorCanMoveDown - compares returned value with known value	 
+	 * - MazeActorCanMoveLeft - compares returned value with known value
+	 * - MazeActorCanMoveRight - compares returned value with known value
+	 * - MazeActorCanMovePlaceHolder - compares returned value with known value
+	 * - MazeActorIsHorizontallyCenteredFalse - compares returned value with known value
+	 * - MazeActorIsHorizontallyCenteredTrue - compares returned value with known value
+	 * - MazeActorIsVerticallyCenteredFalse - compares returned value with known value
+	 * - MazeActorIsVerticallyCenteredTrue - compares returned value with known value
+	 * - MazeActorGetHorizImage - tests whether it's null
+	 * - MazeActorGetVertImage - tests whether it's null
 	 */
+	
+	@Test
+	public void MazeActorConstructor() {
+		MazeActor m = new PacNyan();
+		
+		assertTrue("<< Invalid MazeActor Constructor >>",
+				m != null);
+	}
+	
+	@Test
+	public void MazeActorCanMoveUp() {
+		MazeActor m = new PacNyan();
+		ActorWorld a = new ActorWorld();
+		
+		a.add(m, new Location(1, 1));
+		
+		assertTrue("<< Invalid output for canMove(up) method >>",
+				m.canMove("up") == false);
+	}
+	
+	@Test
+	public void MazeActorCanMoveDown() {
+		MazeActor m = new PacNyan();
+		ActorWorld a = new ActorWorld();
+		
+		a.add(m, new Location(1, 1));
+		
+		assertTrue("<< Invalid output for canMove(down) method >>",
+				m.canMove("down") == true);
+	}
+	
+	@Test
+	public void MazeActorCanMoveLeft() {
+		MazeActor m = new PacNyan();
+		ActorWorld a = new ActorWorld();
+		
+		a.add(m, new Location(1, 1));
+		
+		assertTrue("<< Invalid output for canMove(left) method >>",
+				m.canMove("left") == false);
+	}
+	
+	@Test
+	public void MazeActorCanMoveRight() {
+		MazeActor m = new PacNyan();
+		ActorWorld a = new ActorWorld();
+		
+		a.add(m, new Location(1, 1));
+		
+		assertTrue("<< Invalid output for canMove(right) method >>",
+				m.canMove("right") == false);
+	}
+	
+	@Test
+	public void MazeActorCanMovePlaceholder() {
+		MazeActor m = new PacNyan();
+		ActorWorld a = new ActorWorld();
+		
+		a.add(m, new Location(1, 1));
+		
+		assertTrue("<< Invalid output for canMove(-) method >>",
+				m.canMove("-") == false);
+	}
+	
+	@Test
+	public void MazeActorIsHorizontallyCenteredFalse() {
+		MazeActor m = new PacNyan();
+		ActorWorld a = new ActorWorld();
+		
+		a.addObject(m, 44, 45);
+		
+		assertTrue("<< Invalid output for horizontally centered >>",
+				m.isHorizontallyCentered() == false);
+	}
+	
+	@Test
+	public void MazeActorIsHorizontallyCenteredTrue() {
+		MazeActor m = new PacNyan();
+		ActorWorld a = new ActorWorld();
+		
+		a.addObject(m, 45, 45);
+		
+		assertTrue("<< Invalid output for horizontally centered >>",
+				m.isHorizontallyCentered() == true);
+	}
+	
+	@Test
+	public void MazeActorIsVerticallyCenteredFalse() {
+		MazeActor m = new PacNyan();
+		ActorWorld a = new ActorWorld();
+		
+		a.addObject(m, 45, 44);
+		
+		assertTrue("<< Invalid output for horizontally centered >>",
+				m.isVerticallyCentered() == false);
+	}
+	
+	@Test
+	public void MazeActorIsVerticallyCenteredTrue() {
+		MazeActor m = new PacNyan();
+		ActorWorld a = new ActorWorld();
+		
+		a.addObject(m, 45, 45);
+		
+		assertTrue("<< Invalid output for horizontally centered >>",
+				m.isVerticallyCentered() == true);
+	}
+	
+	@Test
+	public void MazeActorGetHorizImage() {
+		MazeActor m = new PacNyan();
+		
+		assertTrue("<< Invalid horizontal image >>",
+				m.getHorizImage(m.getImage()) != null);
+	}
+	
+	@Test
+	public void MazeActorGetVertImage() {
+		MazeActor m = new PacNyan();
+		
+		assertTrue("<< Invalid vertical image >>",
+				m.getVertImage(m.getImage()) != null);
+	}
 	
 	// -- Test Menu
 	/**
@@ -307,10 +441,10 @@ public class JUnitPacNyanTest
 		PacNyan pac = new PacNyan();
 		ActorWorld w = new ActorWorld();
 		
-		int pinkyInitX = 45;
-		int pinkyInitY = 45;
-		int pacInitX = 75;
-		int pacInitY = 45;
+		int pinkyInitX = 1;
+		int pinkyInitY = 1;
+		int pacInitX = 2;
+		int pacInitY = 1;
 		
 		w.add(pinky, new Location(pinkyInitX, pinkyInitY));
 		w.add(pac, new Location(pacInitX, pacInitY));
