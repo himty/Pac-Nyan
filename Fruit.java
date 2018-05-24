@@ -20,7 +20,7 @@ public class Fruit extends Food
     public void act() 
     {
         getImage().scale( 30,30);
-        if ( time == 500 ) 
+        if ( time == 900 ) 
         {
             getWorld().removeObject(this);
         }
