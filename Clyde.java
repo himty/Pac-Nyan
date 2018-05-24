@@ -14,11 +14,13 @@ public class Clyde extends Ghost
    private int currDirection;
    private String currDirectionStr;
    private int prevDirection;
+   private int startTime;
 
     public Clyde() {
         getImage().scale(CELL_SIZE, CELL_SIZE);
         currDirectionStr = "left";
         currDirection = 1;
+        startTime = 100;
     }
     
     /**
@@ -27,34 +29,39 @@ public class Clyde extends Ghost
      */
     public void act() 
     {
-        if (isScared()) {
-            doScareMode();
+        if (startTime > 0) {
+            startTime--;
         }
         else {
-            if (counter == 0 || !canMove(currDirectionStr)) {
-                counter = CELL_SIZE * 4;
-                prevDirection = currDirection;
-                do {
-                    currDirection = (int)(Math.random() * 10);
-                    if (currDirection == 0) {
-                        currDirectionStr = "up";
-                    }
-                    else if (currDirection == 1) {
-                        currDirectionStr = "left";
-                    }
-                    else if (currDirection == 2) {
-                        currDirectionStr = "down";
-                    }
-                    else if (currDirection == 3) {
-                        currDirectionStr = "right";
-                    }
-                } while (!canMove(currDirectionStr));
+            if (isScared()) {
+                doScareMode();
             }
-            
-            if (canMove(currDirectionStr)) {
-                move(currDirectionStr);
-            }
-            counter--;
-        } 
+            else {
+                if (counter == 0 || !canMove(currDirectionStr)) {
+                    counter = CELL_SIZE * 4;
+                    prevDirection = currDirection;
+                    do {
+                        currDirection = (int)(Math.random() * 10);
+                        if (currDirection == 0) {
+                            currDirectionStr = "up";
+                        }
+                        else if (currDirection == 1) {
+                            currDirectionStr = "left";
+                        }
+                        else if (currDirection == 2) {
+                            currDirectionStr = "down";
+                        }
+                        else if (currDirection == 3) {
+                            currDirectionStr = "right";
+                        }
+                    } while (!canMove(currDirectionStr));
+                }
+                
+                if (canMove(currDirectionStr)) {
+                    move(currDirectionStr);
+                }
+                counter--;
+            } 
+        }
     }
 }

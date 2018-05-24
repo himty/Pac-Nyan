@@ -17,6 +17,7 @@ public class Inky extends Ghost
     private int pacY;
     private String currDirection;
     private boolean isFollowingPacNyan;
+    private int startTime;
     
     public Inky() {
         getImage().scale(30, 30);
@@ -28,6 +29,8 @@ public class Inky extends Ghost
         //to not mess up calculations
         pacX = Integer.MAX_VALUE;
         pacY = Integer.MAX_VALUE;
+        
+        startTime = 50;
     }
     
     /**
@@ -36,37 +39,42 @@ public class Inky extends Ghost
      */
     public void act() 
     {
-        if (isScared()) {
-            doScareMode();
+        if (startTime > 0) {
+            startTime--;
         }
         else {
-            List<PacNyan> list = getWorld().getObjects(PacNyan.class);
-            if (list.size() > 0) {
-                PacNyan pac = list.get(0);
-                pacX = pac.getX();
-                pacY = pac.getY();
+            if (isScared()) {
+                doScareMode();
             }
-        
-            if (isFollowingPacNyan
-                    && (getX() - pacX) * (getX() - pacX) + (getY() - pacY) * (getY() - pacY) > 15000) {
-                followPacNyan();
-            }
-            else if (isFollowingPacNyan) {
-                // too close to the PacNyan
-                if (Math.random() < 0.005) {
-                    isFollowingPacNyan = false;
-                    goHome();
+            else {
+                List<PacNyan> list = getWorld().getObjects(PacNyan.class);
+                if (list.size() > 0) {
+                    PacNyan pac = list.get(0);
+                    pacX = pac.getX();
+                    pacY = pac.getY();
                 }
-                else {
+            
+                if (isFollowingPacNyan
+                        && (getX() - pacX) * (getX() - pacX) + (getY() - pacY) * (getY() - pacY) > 15000) {
                     followPacNyan();
                 }
-            } else {
-                if(getX() == homeX && getY() == homeY) {
-                    isFollowingPacNyan = true;
-                    followPacNyan();
-                }
-                else {
-                    goHome();
+                else if (isFollowingPacNyan) {
+                    // too close to the PacNyan
+                    if (Math.random() < 0.005) {
+                        isFollowingPacNyan = false;
+                        goHome();
+                    }
+                    else {
+                        followPacNyan();
+                    }
+                } else {
+                    if(getX() == homeX && getY() == homeY) {
+                        isFollowingPacNyan = true;
+                        followPacNyan();
+                    }
+                    else {
+                        goHome();
+                    }
                 }
             }
         }
