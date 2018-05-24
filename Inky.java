@@ -21,7 +21,7 @@ public class Inky extends Ghost
     public Inky() {
         getImage().scale(30, 30);
         homeX = 375;
-        homeY = 165;
+        homeY = 225;
         currDirection = "-";
         isFollowingPacNyan = true;
         
