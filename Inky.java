@@ -87,8 +87,8 @@ public class Inky extends Ghost
         List<PacNyan> list = getWorld().getObjects(PacNyan.class);
         if (list.size() > 0) {
             PacNyan pac = list.get(0);
-            pacX = pac.getXCoord();
-            pacY = pac.getYCoord();
+            pacX = pac.getX();
+            pacY = pac.getY();
 
             if (getX() <= pacX) {
                 //Pinky is on the left. Close in on the pacNyan
@@ -133,8 +133,8 @@ public class Inky extends Ghost
         List<PacNyan> list = getWorld().getObjects(PacNyan.class);
         if (list.size() > 0) {
             PacNyan pac = list.get(0);
-            pacX = pac.getXCoord();
-            pacY = pac.getYCoord();
+            pacX = pac.getX();
+            pacY = pac.getY();
         }
     	
         if (isHorizontallyCentered() && isVerticallyCentered()) {
