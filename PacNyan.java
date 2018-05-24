@@ -152,6 +152,7 @@ public class PacNyan extends MazeActor
                     if(getWorld() != null){
                         ((ActorWorld) getWorld()).getMenu().decreaseLives();
                         ((ActorWorld) getWorld()).resetWorld();
+                        return;
                     }
                 }
             }
