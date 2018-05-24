@@ -26,7 +26,7 @@ public class PacNyan extends MazeActor
     private static final int CELL_SIZE = 30;
     private int points;
     private int ghostTimer;
-    Menu menu = new Menu();
+    Menu menu;
     
     public PacNyan()
     {
@@ -38,6 +38,7 @@ public class PacNyan extends MazeActor
         currDirection = lastKey;
         points = 0;
         ghostTimer = 0;
+        menu = getWorld().getMenu();
     }
     
     /**
