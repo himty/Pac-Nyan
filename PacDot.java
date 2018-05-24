@@ -12,15 +12,14 @@ public class PacDot extends Food
     {
     }
     /**
-     * Act - do whatever the PacDot wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
+     * scales pacdot image
      */
     public void act() 
     {
-        getImage().scale( 40,30);
+        getImage().scale( 7,7);
     }    
     public boolean isEaten()
     {
-       return getWorld().getObjectsAt(0, 0, PacNyan.class).isEmpty();
+       return getWorld().getObjectsAt(0, 0, PacDot.class).isEmpty();
     }
 }
