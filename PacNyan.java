@@ -150,14 +150,6 @@ public class PacNyan extends MazeActor
         }
     }
     
-    public int getXCoord() {
-        return getX();
-    }
-    
-    public int getYCoord() {
-        return getY();
-    }
-    
     public String getDirection() {
         return currDirection;
     }
