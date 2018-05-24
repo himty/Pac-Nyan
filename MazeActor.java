@@ -85,7 +85,7 @@ public abstract class MazeActor extends Actor
      * Returns whether this actor is in the middle of a
      * cell in terms of y-coordinate
      */
-    private boolean isVerticallyCentered() {
+    public boolean isVerticallyCentered() {
         return (getY() - CELL_SIZE / 2) % CELL_SIZE == 0;
     }
     
@@ -93,7 +93,7 @@ public abstract class MazeActor extends Actor
      * Returns whether this actor is in the middle of a
      * cell in terms of x-coordinate
      */
-    private boolean isHorizontallyCentered() {
+    public boolean isHorizontallyCentered() {
         return (getX() - CELL_SIZE / 2) % CELL_SIZE == 0;
     }
     
