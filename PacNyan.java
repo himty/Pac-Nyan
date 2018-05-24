@@ -1,5 +1,5 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-
+import java.util.List;
 /**
  * Write a description of class PacNyan here.
  * 
@@ -24,9 +24,7 @@ public class PacNyan extends MazeActor
     private static final int WIDTH = 40;
     private static final int HEIGHT = 46;
     private static final int CELL_SIZE = 30;
-    private int points;
-    private int ghostTimer;
-    Menu menu;
+    private Menu myMenu;
     
     public PacNyan()
     {
@@ -36,9 +34,6 @@ public class PacNyan extends MazeActor
         lastKey = "-";
         queuedKey = lastKey;
         currDirection = lastKey;
-        points = 0;
-        ghostTimer = 0;
-        menu = getWorld().getMenu();
     }
     
     /**
@@ -86,10 +81,11 @@ public class PacNyan extends MazeActor
                  queuedKey = lastKey;
             }
         }
-        if (getWorld().getObjects(Fruit.class).isEmpty()){generateFruit();}
+        if (getWorld().getObjects(Fruit.class).isEmpty()) {
+            generateFruit();
+        }
         eat();
-        menu.addPoints( points);
-        menu.updateMenu();
+        reactToGhosts();
     }
     public void generateFruit()
     {
@@ -106,33 +102,50 @@ public class PacNyan extends MazeActor
             fruit.setLocation(getX(), getY() - 10);
         }
     }
+    
     public void eat()
     {
-        Actor dot = getOneObjectAtOffset(0,0, PacDot.class); 
-        Actor powa = getOneObjectAtOffset(0,0, PowerPellet.class); 
-        Actor fruit = getOneObjectAtOffset(0,0, Fruit.class);
+        List<PacDot> dotList = getObjectsInRange(10, PacDot.class); 
+        List<PowerPellet> powaList = getObjectsInRange(10, PowerPellet.class); 
+        List<Fruit> fruitList = getObjectsInRange(10, Fruit.class);
         
-        if (dot != null)
+        if (dotList != null)
         {
-            getWorld().removeObject(dot);
-            points += 10;
+            for (PacDot dot : dotList) {
+                ((ActorWorld) getWorld()).removeObject(dot);
+                ((ActorWorld) getWorld()).getMenu().increasePoints(10);
+            }
         }
-        else if (powa != null)
+        else if (powaList != null)
         {
-            getWorld().removeObject(powa);
-            // turnOnScareMode();
-            // ghostTimer = 0;
-            points += 50;
+            for(PowerPellet powa : powaList) {
+                ((ActorWorld) getWorld()).removeObject(powa);
+                ((ActorWorld) getWorld()).getMenu().increasePoints(50);
+            }
         }
-        else if (fruit != null)
+        else if (fruitList != null)
         {
-            getWorld().removeObject(fruit);
-            points += 100;
+            for (Fruit fruit : fruitList) {
+                ((ActorWorld) getWorld()).removeObject(fruit);
+                ((ActorWorld) getWorld()).getMenu().increasePoints(100);
+            }
         }
     }
-    public int getTotalPoints()
-    {
-        return points;
+    
+    public void reactToGhosts() {
+        List<Ghost> list = getObjectsInRange(10, Ghost.class);
+        //Actor a = getOneObjectAtOffset(0, 0, Ghost.class);
+        if (list != null) {
+            for (Actor a : list) {
+                if (((Ghost) a).isScared()) {
+                    ((ActorWorld) getWorld()).resetGhost((Ghost) a);
+                }
+                else {
+                    ((ActorWorld) getWorld()).getMenu().decreaseLives();
+                    ((ActorWorld) getWorld()).resetWorld();
+                }
+            }
+        }
     }
     
     public void setImageDir(String dir) {
@@ -155,6 +168,21 @@ public class PacNyan extends MazeActor
     }
     
     public String getDirection() {
+        return currDirection;
+    }
+    
+    /**
+     * For testing purposes
+     */
+    public String getLastKey() {
+        return lastKey;
+    }
+    
+    public String getQueuedKey() {
+        return queuedKey;
+    }
+    
+    public String getCurrDirection() {
         return currDirection;
     }
 }
