@@ -1,7 +1,7 @@
 /*
  * This class was provided within the GridWorld library within Greenfoot.
  * We continued using this class even after moving away from GridWorld 
- * because we wanted to change the tint of our pictures.
+ * because we wanted to easily manage the actors on the map.
  * ~ PacNyan Group, Period 5
  */
 
