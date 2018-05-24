@@ -87,7 +87,7 @@ public class ActorWorld extends World
        myMenu = new Menu(DEFAULT_COLS, MENU_HEIGHT);
        add(myMenu, new Location(myMap.length * CELL_SIZE + MENU_HEIGHT / 2, myMap[0].length * CELL_SIZE / 2));
        initGameMap();
-       Greenfoot.setSpeed(60);
+       Greenfoot.setSpeed(55);
        Greenfoot.start();
     }
 
