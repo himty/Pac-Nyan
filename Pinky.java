@@ -22,48 +22,53 @@ public class Pinky extends Ghost
      */
     public void act() 
     {
-        List<PacNyan> list = getWorld().getObjects(PacNyan.class);
-        if (list.size() > 0) {
-            PacNyan pac = list.get(0);
-            int pacX = pac.getX();
-            int pacY = pac.getY();
-            String pacDir = pac.getDirection();
-
-            if (getX() <= pacX) {
-                //Pinky is on the left. Close in on the pacNyan
-                if (getY() < pacY && canMove("down")) {
-                    currDirection = "down";
-                }
-                else if (getY() > pacY && canMove("up")) {
-                    currDirection = "up";
-                }
-                else if (canMove("right")){
-                    currDirection = "right";
-                }
-                else {
-                    //if this is a dead end
-                    currDirection = "left";
-                }
-            }
-            else {
-                //Pinky is on the right. keep going left
-                if (canMove("left")) {
-                    currDirection = "left";
-                }
-                else if (getY() < pacY && canMove("down")) {
-                    currDirection = "down";
-                }
-                else if (getY() > pacY && canMove("up")) {
-                    currDirection = "up";
+        if (isScared()) {
+            doScareMode();
+        }
+        else {
+            List<PacNyan> list = getWorld().getObjects(PacNyan.class);
+            if (list.size() > 0) {
+                PacNyan pac = list.get(0);
+                int pacX = pac.getX();
+                int pacY = pac.getY();
+                String pacDir = pac.getDirection();
+    
+                if (getX() <= pacX) {
+                    //Pinky is on the left. Close in on the pacNyan
+                    if (getY() < pacY && canMove("down")) {
+                        currDirection = "down";
+                    }
+                    else if (getY() > pacY && canMove("up")) {
+                        currDirection = "up";
+                    }
+                    else if (canMove("right")){
+                        currDirection = "right";
+                    }
+                    else {
+                        //if this is a dead end
+                        currDirection = "left";
+                    }
                 }
                 else {
-                    //if this is a dead end
-                    currDirection = "right";
+                    //Pinky is on the right. keep going left
+                    if (canMove("left")) {
+                        currDirection = "left";
+                    }
+                    else if (getY() < pacY && canMove("down")) {
+                        currDirection = "down";
+                    }
+                    else if (getY() > pacY && canMove("up")) {
+                        currDirection = "up";
+                    }
+                    else {
+                        //if this is a dead end
+                        currDirection = "right";
+                    }
                 }
-            }
-
-            if (canMove(currDirection)) {
-                move(currDirection);
+    
+                if (canMove(currDirection)) {
+                    move(currDirection);
+                }
             }
         }
     }    
