@@ -25,8 +25,8 @@ public class Menu extends Actor
     private void updateMenu() {
         int fontSize = 24;
         Color textColor = new Color(50, 150, 50);
-        String scoreStr = "Score: " + Integer.toString(myScore);
-        String livesStr = "Lives: " + Integer.toString(myLives);
+        String scoreStr = "Score: " + myScore;
+        String livesStr = "Lives: " + myLives;
         GreenfootImage scoreImage = new GreenfootImage(scoreStr, fontSize, textColor, new Color(0, 0, 0, 0));
         GreenfootImage livesImage = new GreenfootImage(livesStr, fontSize, textColor, new Color(0, 0, 0, 0));
         
