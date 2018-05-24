@@ -51,6 +51,7 @@ public class ActorWorld extends World
     private final char PACNYAN = 'A';
 
     private char[][] myMap;
+    private Menu myMenu;
     
     private ArrayList<Actor> actors;
     
@@ -83,6 +84,8 @@ public class ActorWorld extends World
        setPaintOrder(PacNyan.class, Blinky.class, Inky.class, Pinky.class, Clyde.class, Wall.class, Void.class);
         
        setBackground(new GreenfootImage("rainbow_background.png"));
+       myMenu = new Menu(DEFAULT_COLS, MENU_HEIGHT);
+       add(myMenu, new Location(myMap.length * CELL_SIZE + MENU_HEIGHT / 2, myMap[0].length * CELL_SIZE / 2));
        initGameMap();
        Greenfoot.setSpeed(60);
        Greenfoot.start();
@@ -108,21 +111,11 @@ public class ActorWorld extends World
         if (loc != null)
             add(loc, occupant);
     }
-    /**
-     * This method contains the code from the 'BugRunner' class from the 
-     * 'firstProject' example from the original version.
-     */
-    public void initGameMap() 
-    {
-        initSpots();
-    }
-    
+
     /**
      * Creates the walls in the map based off char[][] WALL_MAP
      */
-    private void initSpots() {
-        add(new Menu(DEFAULT_COLS, MENU_HEIGHT), new Location(myMap.length * CELL_SIZE + MENU_HEIGHT / 2, myMap[0].length * CELL_SIZE / 2));
-        
+    private void initGameMap() {        
         for (int row = 0; row < myMap.length; row++) {
             for(int col = 0; col < myMap[0].length; col++) {
                 int tempRow = (int)(row * CELL_SIZE + CELL_SIZE * 0.5);
@@ -161,5 +154,26 @@ public class ActorWorld extends World
     public boolean isWallAtLoc(Location loc) {
         return myMap[loc.getRow()][loc.getCol()] == WALL;
     }
-    public Menu getMenu(){return myMenu;}
+    
+    public Menu getMenu(){
+        return myMenu;
+    }
+    
+    public void resetGhost(Ghost g) {
+        g.setLocation(375, 165);
+    }
+    
+    public void resetWorld() {
+        removeObjects(getObjects(Wall.class));
+        removeObjects(getObjects(Void.class));
+        removeObjects(getObjects(Blinky.class));
+        removeObjects(getObjects(Inky.class));
+        removeObjects(getObjects(Pinky.class));
+        removeObjects(getObjects(Clyde.class));
+        removeObjects(getObjects(Bar.class));
+        removeObjects(getObjects(PacNyan.class));
+        removeObjects(getObjects(PacDot.class));
+        removeObjects(getObjects(PowerPellet.class));
+        initGameMap();
+    }
 }
