@@ -27,32 +27,34 @@ public class Clyde extends Ghost
      */
     public void act() 
     {
-        if (counter == 0 || !canMove(currDirectionStr)) {
-            System.out.println("x: " + getX() + " y: " + getY());
-            counter = CELL_SIZE * 4;
-            prevDirection = currDirection;
-            do {
-                System.out.println(currDirectionStr + "?");
-                currDirection = (int)(Math.random() * 10);
-                if (currDirection == 0) {
-                    currDirectionStr = "up";
-                }
-                else if (currDirection == 1) {
-                    currDirectionStr = "left";
-                }
-                else if (currDirection == 2) {
-                    currDirectionStr = "down";
-                }
-                else if (currDirection == 3) {
-                    currDirectionStr = "right";
-                }
-            } while (!canMove(currDirectionStr));
-            System.out.println("picked " + currDirectionStr);
+        if (isScared()) {
+            doScareMode();
         }
-        
-        if (canMove(currDirectionStr)) {
-            move(currDirectionStr);
-        }
-        counter--;
-    } 
+        else {
+            if (counter == 0 || !canMove(currDirectionStr)) {
+                counter = CELL_SIZE * 4;
+                prevDirection = currDirection;
+                do {
+                    currDirection = (int)(Math.random() * 10);
+                    if (currDirection == 0) {
+                        currDirectionStr = "up";
+                    }
+                    else if (currDirection == 1) {
+                        currDirectionStr = "left";
+                    }
+                    else if (currDirection == 2) {
+                        currDirectionStr = "down";
+                    }
+                    else if (currDirection == 3) {
+                        currDirectionStr = "right";
+                    }
+                } while (!canMove(currDirectionStr));
+            }
+            
+            if (canMove(currDirectionStr)) {
+                move(currDirectionStr);
+            }
+            counter--;
+        } 
+    }
 }
