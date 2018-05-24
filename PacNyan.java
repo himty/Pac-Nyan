@@ -87,6 +87,7 @@ public class PacNyan extends MazeActor
         eat();
         reactToGhosts();
     }
+    
     public void generateFruit()
     {
         Actor fruit = new Fruit();
@@ -105,6 +106,7 @@ public class PacNyan extends MazeActor
     
     public void eat()
     {
+        
         List<PacDot> dotList = getObjectsInRange(10, PacDot.class); 
         List<PowerPellet> powaList = getObjectsInRange(10, PowerPellet.class); 
         List<Fruit> fruitList = getObjectsInRange(10, Fruit.class);
@@ -116,20 +118,25 @@ public class PacNyan extends MazeActor
                 ((ActorWorld) getWorld()).getMenu().increasePoints(10);
             }
         }
-        else if (powaList != null)
+        if (powaList != null)
         {
             for(PowerPellet powa : powaList) {
                 ((ActorWorld) getWorld()).removeObject(powa);
                 ((ActorWorld) getWorld()).getMenu().increasePoints(50);
+                List<Ghost> ghosts = getWorld().getObjects(Ghost.class);
+                for (Ghost g : ghosts) {
+                    g.setScared();
+                }
             }
         }
-        else if (fruitList != null)
+        if (fruitList != null)
         {
             for (Fruit fruit : fruitList) {
                 ((ActorWorld) getWorld()).removeObject(fruit);
                 ((ActorWorld) getWorld()).getMenu().increasePoints(100);
             }
         }
+        
     }
     
     public void reactToGhosts() {
@@ -139,10 +146,13 @@ public class PacNyan extends MazeActor
             for (Actor a : list) {
                 if (((Ghost) a).isScared()) {
                     ((ActorWorld) getWorld()).resetGhost((Ghost) a);
+                    ((ActorWorld) getWorld()).getMenu().increasePoints(50);
                 }
                 else {
-                    ((ActorWorld) getWorld()).getMenu().decreaseLives();
-                    ((ActorWorld) getWorld()).resetWorld();
+                    if(getWorld() != null){
+                        ((ActorWorld) getWorld()).getMenu().decreaseLives();
+                        ((ActorWorld) getWorld()).resetWorld();
+                    }
                 }
             }
         }
