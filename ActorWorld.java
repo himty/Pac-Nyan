@@ -63,23 +63,23 @@ public class ActorWorld extends World
         super(DEFAULT_COLS, DEFAULT_ROWS + MENU_HEIGHT, 1);
         myMap = new char[][]
        {
-        {'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'},
-        {'x', 'G', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'x', 'G', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'G', 'x'}, 
-        {'x', 'o', 'x', 'x', 'x', 'o', 'x', 'x', 'x', 'x', 'x', 'o', 'x', 'o', 'x', 'x', 'x', 'x', 'x', 'o', 'x', 'x', 'x', 'o', 'x'}, 
-        {'x', 'o', 'x', '_', 'x', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'x', '_', 'x', 'o', 'x'}, 
-        {'x', 'o', 'x', 'x', 'x', 'o', 'x', 'x', 'x', 'o', 'x', 'x', 'x', 'x', 'x', 'o', 'x', 'x', 'x', 'o', 'x', 'x', 'x', 'o', 'x'}, 
-        {'x', 'o', 'o', 'o', 'o', 'o', 'x', '_', 'x', 'o', 'o', 'o', 'r', 'o', 'o', 'o', 'x', '_', 'x', 'o', 'o', 'o', 'o', 'o', 'x'}, 
-        {'x', 'o', 'x', 'x', 'x', 'o', 'x', '_', 'x', 'o', 'x', 'x', '-', 'x', 'x', 'o', 'x', '_', 'x', 'o', 'x', 'x', 'x', 'o', 'x'}, 
-        {'x', 'o', 'x', '_', 'x', 'o', 'x', '_', 'x', 'o', 'x', 'b', 'y', 'p', 'x', 'o', 'x', '_', 'x', 'o', 'x', '_', 'x', 'o', 'x'}, 
-        {'x', 'o', 'x', 'x', 'x', 'o', 'x', '_', 'x', 'o', 'x', 'x', 'x', 'x', 'x', 'o', 'x', '_', 'x', 'o', 'x', 'x', 'x', 'o', 'x'}, 
-        {'x', 'o', 'o', 'o', 'o', 'o', 'x', '_', 'x', 'o', 'o', 'G', 'x', 'G', 'o', 'o', 'x', '_', 'x', 'o', 'o', 'o', 'o', 'o', 'x'}, 
-        {'x', 'o', 'x', 'x', 'x', 'o', 'x', 'x', 'x', 'o', 'x', 'x', 'x', 'x', 'x', 'o', 'x', 'x', 'x', 'o', 'x', 'x', 'x', 'o', 'x'}, 
-        {'x', 'o', 'x', '_', 'x', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'A', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'x', '_', 'x', 'o', 'x'}, 
-        {'x', 'o', 'x', 'x', 'x', 'o', 'x', 'x', 'x', 'x', 'x', 'o', 'x', 'o', 'x', 'x', 'x', 'x', 'x', 'o', 'x', 'x', 'x', 'o', 'x'}, 
-        {'x', 'G', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'G', 'x', 'G', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'G', 'x'}, 
-        {'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'}
-    };
-        
+            {'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'},
+            {'x', 'G', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'x', 'G', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'G', 'x'}, 
+            {'x', 'o', 'x', 'x', 'x', 'o', 'x', 'x', 'x', 'x', 'x', 'o', 'x', 'o', 'x', 'x', 'x', 'x', 'x', 'o', 'x', 'x', 'x', 'o', 'x'}, 
+            {'x', 'o', 'x', '_', 'x', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'x', '_', 'x', 'o', 'x'}, 
+            {'x', 'o', 'x', 'x', 'x', 'o', 'x', 'x', 'x', 'o', 'x', 'x', 'x', 'x', 'x', 'o', 'x', 'x', 'x', 'o', 'x', 'x', 'x', 'o', 'x'}, 
+            {'x', 'o', 'o', 'o', 'o', 'o', 'x', '_', 'x', 'o', 'o', 'o', 'r', 'o', 'o', 'o', 'x', '_', 'x', 'o', 'o', 'o', 'o', 'o', 'x'}, 
+            {'x', 'o', 'x', 'x', 'x', 'o', 'x', '_', 'x', 'o', 'x', 'x', ' ', 'x', 'x', 'o', 'x', '_', 'x', 'o', 'x', 'x', 'x', 'o', 'x'}, 
+            {'x', 'o', 'x', '_', 'x', 'o', 'x', '_', 'x', 'o', 'o', 'b', 'y', 'p', 'o', 'o', 'x', '_', 'x', 'o', 'x', '_', 'x', 'o', 'x'}, 
+            {'x', 'o', 'x', 'x', 'x', 'o', 'x', '_', 'x', 'o', 'x', 'x', 'o', 'x', 'x', 'o', 'x', '_', 'x', 'o', 'x', 'x', 'x', 'o', 'x'}, 
+            {'x', 'o', 'o', 'o', 'o', 'o', 'x', '_', 'x', 'o', 'o', 'G', 'o', 'G', 'o', 'o', 'x', '_', 'x', 'o', 'o', 'o', 'o', 'o', 'x'}, 
+            {'x', 'o', 'x', 'x', 'x', 'o', 'x', 'x', 'x', 'o', 'x', 'x', 'x', 'x', 'x', 'o', 'x', 'x', 'x', 'o', 'x', 'x', 'x', 'o', 'x'}, 
+            {'x', 'o', 'x', '_', 'x', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'A', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'x', '_', 'x', 'o', 'x'}, 
+            {'x', 'o', 'x', 'x', 'x', 'o', 'x', 'x', 'x', 'x', 'x', 'o', 'x', 'o', 'x', 'x', 'x', 'x', 'x', 'o', 'x', 'x', 'x', 'o', 'x'}, 
+            {'x', 'G', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'G', 'x', 'G', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'G', 'x'}, 
+            {'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'}
+        };
+            
        actors = new ArrayList<Actor>();
        setPaintOrder(PacNyan.class, Blinky.class, Inky.class, Pinky.class, Clyde.class, Wall.class, Void.class);
         
@@ -115,7 +115,8 @@ public class ActorWorld extends World
     /**
      * Creates the walls in the map based off char[][] WALL_MAP
      */
-    private void initGameMap() {        
+    private void initGameMap() { 
+        
         for (int row = 0; row < myMap.length; row++) {
             for(int col = 0; col < myMap[0].length; col++) {
                 int tempRow = (int)(row * CELL_SIZE + CELL_SIZE * 0.5);
@@ -149,6 +150,7 @@ public class ActorWorld extends World
                 }
             }
         }
+        
     } 
     
     public boolean isWallAtLoc(Location loc) {
@@ -160,7 +162,7 @@ public class ActorWorld extends World
     }
     
     public void resetGhost(Ghost g) {
-        g.setLocation(375, 165);
+        g.setLocation(375, 225);
     }
     
     public void resetWorld() {
