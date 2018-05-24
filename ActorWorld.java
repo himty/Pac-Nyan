@@ -161,4 +161,5 @@ public class ActorWorld extends World
     public boolean isWallAtLoc(Location loc) {
         return myMap[loc.getRow()][loc.getCol()] == WALL;
     }
+    public Menu getMenu(){return myMenu;}
 }
