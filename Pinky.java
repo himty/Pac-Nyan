@@ -25,8 +25,8 @@ public class Pinky extends Ghost
         List<PacNyan> list = getWorld().getObjects(PacNyan.class);
         if (list.size() > 0) {
             PacNyan pac = list.get(0);
-            int pacX = pac.getXCoord();
-            int pacY = pac.getYCoord();
+            int pacX = pac.getX();
+            int pacY = pac.getY();
             String pacDir = pac.getDirection();
 
             if (getX() <= pacX) {
