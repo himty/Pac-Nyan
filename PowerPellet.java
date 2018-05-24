@@ -9,11 +9,10 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class PowerPellet extends Food
 {
     /**
-     * Act - do whatever the PowerPellet wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
+     * scales power pellet image.
      */
     public void act() 
     {
-        getImage().scale( 130,100);
+        getImage().scale( 20,20);
     }    
 }
