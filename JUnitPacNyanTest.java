@@ -19,20 +19,92 @@ public class JUnitPacNyanTest
 	// -- Test Bar
 	/**
 	 * Bar Tests:
-	 * - 
+	 * - BarConstructor - constructs Bar and tests if not null
+	 * - BarGetImage - compares value with null
 	 */
+	
+	@Test
+	public void BarConstructor() {
+		Bar b = new Bar();
+		
+		assertTrue("<< Invalid Bar Constructor >>",
+				b != null);
+	}
+	
+	@Test
+	public void BarGetImage() {
+		Bar b = new Bar();
+		
+		assertTrue("<< Invalid Image from getImage() >>",
+				b.getImage() != null);
+	}
 	
 	// -- Test Blinky
 	/**
 	 * Blinky Tests:
-	 * - 
+	 * - BlinkyConstructor - constructs Blinky and tests if it's not null
+	 * - BlinkyChasePacNyan - tests if Blinky moves closer to PacNyan to attack
 	 */
+	
+	@Test
+	public void BlinkyConstructor() {
+		Blinky b = new Blinky();
+		
+		assertTrue("<< Invalid Blinky Constructor >>",
+				b != null);
+	}
+	
+	@Test
+	public void BlinkyChasePacNyan() {
+		Blinky b = new Blinky();
+		PacNyan pac = new PacNyan();
+		ActorWorld w = new ActorWorld();
+		
+		int bInitX = 45;
+		int bInitY = 45;
+		int pacInitX = 75;
+		int pacInitY = 45;
+		
+		w.add(b, new Location(bInitX, bInitY));
+		w.add(pac, new Location(pacInitX, pacInitY));
+		
+		b.act();
+		
+		assertTrue("<< Blinky does not chase PacNyan >>",
+				Math.abs(bInitX - pacInitX) > Math.abs(b.getX() - pacInitX)
+				|| Math.abs(bInitY - pacInitY) > Math.abs(b.getY() - pacInitY));
+	}
 	
 	// -- Test Clyde
 	/**
 	 * Clyde Tests:
-	 * - 
+	 * - ClydeConstructor - constructs Clyde and tests if it's not null
+	 * - ClydeRandomMove - tests if Clyde moves when it acts
 	 */
+	
+	@Test
+	public void ClydeConstructor() {
+		Clyde c = new Clyde();
+		
+		assertTrue("<< Invalid Clyde Constructor >>",
+				c != null);
+	}
+	
+	@Test
+	public void ClydeChasePacNyan() {
+		Clyde c = new Clyde();
+		ActorWorld w = new ActorWorld();
+		
+		int cInitX = 45;
+		int cInitY = 45;
+		
+		w.add(c, new Location(cInitX, cInitY));		
+		c.act();
+		
+		assertTrue("<< Clyde does not move >>",
+				cInitX != c.getX() || cInitY != c.getY());
+				
+	}
 
 	// -- Test Food
 	/**
@@ -66,8 +138,59 @@ public class JUnitPacNyanTest
 	// -- Test Inky
 	/**
 	 * Inky Tests:
-	 * - 
+	 * - InkyConstructor - constructs Inky and tests if not null
+	 * - InkyChasesPacNyanWhenFar - tests if Inky moves toward PacNyan when far away
+	 * - InkyMovesWhenCloseToPacNyan - tests if Inky moves if close to PacNyan
 	 */
+	
+	@Test
+	public void InkyConstructor() {
+		Inky i = new Inky();
+		
+		assertTrue("<< Invalid Inky Constructor >>",
+				i != null);
+	}
+	
+	@Test
+	public void InkyChasesPacNyanWhenFar() {
+		Inky i = new Inky();
+		PacNyan pac = new PacNyan();
+		ActorWorld w = new ActorWorld();
+		
+		int iInitX = 45;
+		int iInitY = 45;
+		int pacInitX = 75;
+		int pacInitY = 45;
+		
+		w.add(i, new Location(iInitX, iInitY));
+		w.add(pac, new Location(pacInitX, pacInitY));
+		
+		i.act();
+		
+		assertTrue("<< Inky does not chase PacNyan when far away >>",
+				Math.abs(iInitX - pacInitX) > Math.abs(i.getX() - pacInitX)
+				|| Math.abs(iInitY - pacInitY) > Math.abs(i.getY() - pacInitY));
+	}
+	
+	@Test
+	public void InkyMovesWhenCloseToPacNyan() {
+		Inky i = new Inky();
+		PacNyan pac = new PacNyan();
+		ActorWorld w = new ActorWorld();
+		
+		int iInitX = 45;
+		int iInitY = 45;
+		int pacInitX = 75;
+		int pacInitY = 45;
+		
+		w.add(i, new Location(iInitX, iInitY));
+		w.add(pac, new Location(pacInitX, pacInitY));
+		
+		i.act();
+		
+		assertTrue("<< Inky does not move >>",
+				iInitX != i.getX() || iInitY != i.getY());
+	}
 	
 	// -- Test MazeActor
 	/**
@@ -100,10 +223,11 @@ public class JUnitPacNyanTest
 	 * - PacNyanEatPowerPellet - TODO
 	 * - PacNyanEatenByGhost - TODO
 	 * - PacNyanEatsGhost - TODO
+	 * - PacNyanChangeScore - TODO
 	 */
 
 	@Test
-	public void pacNyanConstructor() {
+	public void PacNyanConstructor() {
 		PacNyan p = new PacNyan();
 		assertTrue("<< Invalid PacNyan Constructor >>",
 				p.getCurrDirection().equals("-")
@@ -194,8 +318,8 @@ public class JUnitPacNyanTest
 		pinky.act();
 		
 		assertTrue("<< Pinky does not chase PacNyan >>",
-				Math.abs(pinkyInitX - pacInitX) < Math.abs(pinky.getX() - pacInitX)
-				|| Math.abs(pinkyInitY - pacInitY) < Math.abs(pinky.getY() - pacInitY));
+				Math.abs(pinkyInitX - pacInitX) > Math.abs(pinky.getX() - pacInitX)
+				|| Math.abs(pinkyInitY - pacInitY) > Math.abs(pinky.getY() - pacInitY));
 	}
 	
 	// -- Test PowerPellet
@@ -249,5 +373,4 @@ public class JUnitPacNyanTest
 		assertTrue("<< Invalid Image from getImage() >>",
 				w.getImage() != null);
 	}
-	
 }
