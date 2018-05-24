@@ -12,7 +12,7 @@ public class Menu extends Actor
     private int myHeight;
     private int myScore;
     private int myLives;
-
+    
     public Menu(int w, int h) {
         myWidth = w;
         myHeight = h;
@@ -21,21 +21,12 @@ public class Menu extends Actor
         
         updateMenu();
     }
-    public Menu()
-    {
-        myWidth = 750;
-        myHeight = 450;
-        myScore = 0;
-        myLives = 3;
-        
-        updateMenu();
-    }
     
-    public void updateMenu() {
+    private void updateMenu() {
         int fontSize = 24;
         Color textColor = new Color(50, 150, 50);
-        String scoreStr = "Score: " + myScore;
-        String livesStr = "Lives: " + myLives;
+        String scoreStr = "Score: " + Integer.toString(myScore);
+        String livesStr = "Lives: " + Integer.toString(myLives);
         GreenfootImage scoreImage = new GreenfootImage(scoreStr, fontSize, textColor, new Color(0, 0, 0, 0));
         GreenfootImage livesImage = new GreenfootImage(livesStr, fontSize, textColor, new Color(0, 0, 0, 0));
         
@@ -51,12 +42,17 @@ public class Menu extends Actor
         setImage(image);
     }
     
-    public void addPoints(int points) {
+    public void increasePoints(int points) {
         myScore += points;
+        updateMenu();
     }
     
     public void decreaseLives() {
         myLives--;
+        updateMenu();
+        if (myLives <= 0) {
+            Greenfoot.stop();
+        }
     }
     
     public int getScore() {
